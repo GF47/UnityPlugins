@@ -5,7 +5,6 @@
 //************************************************************//
 namespace GF47RunTime.Tween
 {
-    using Base;
     using UnityEngine;
 
     /// <summary>
@@ -13,7 +12,7 @@ namespace GF47RunTime.Tween
     /// DataTime        :2014/1/9 星期四 10:14:11
     /// [TweenCameraMatrix] Introduction  :Nothing to introduce
     /// </summary>
-    public class TweenCameraMatrix : TweenBase
+    public class TweenCameraMatrix : Tween<float>
     {
         public Camera target;
 
@@ -22,29 +21,37 @@ namespace GF47RunTime.Tween
         [Range(0, 3)]
         public int column;
 
-        public float from, to;
-
-        public override void SetPercent(float factor, bool isFinished)
+        void Awake()
         {
-            if (target != null)
+            if (target == null)
             {
-                Matrix4x4 m = target.projectionMatrix;
-                m[Mathf.Clamp(row, 0, 3), Mathf.Clamp(column, 0, 3)] = Mathf.Lerp(from, to, factor);
-                target.projectionMatrix = m;
+                target = GetComponent<Camera>();
+            }
+            if (target == null)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                setValue = delegate(float f) 
+                {
+                    Matrix4x4 m = target.projectionMatrix;
+                    f = Mathf.Lerp(from, to, f);
+                    m[Mathf.Clamp(row, 0, 3), Mathf.Clamp(column, 0, 3)] = f;
+                    target.projectionMatrix = m;
+                    return f;
+                };
             }
         }
 
         public static TweenCameraMatrix Begin(float duration, float from, float to, GameObject root)
         {
-            TweenCameraMatrix comp = Begin<TweenCameraMatrix>(root, duration);
-            comp.from = from;
-            comp.to = to;
-            if (duration <= 0.0f)
+            TweenBase tb = TweenBase.Begin<float,TweenCameraMatrix>(duration,from, to, root, root);
+            if (tb.targets != null && tb.targets.Count > 0)
             {
-                comp.Sample(1.0f, true);
-                comp.enabled = false;
+                return tb.targets[0] as TweenCameraMatrix;
             }
-            return comp;
+            return null;
         }
     }
 }

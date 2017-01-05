@@ -4,7 +4,7 @@
 //      Edited      :       2014/2/24 21:31:05
 //************************************************************//
 
-namespace GF47RunTime.Tween.Base
+namespace GF47RunTime.Tween
 {
     internal class TweenLinear
     {

@@ -4,7 +4,7 @@
 //      Edited      :       2014/3/2 3:20:27
 //************************************************************//
 
-namespace GF47RunTime.Tween.Base
+namespace GF47RunTime.Tween
 {
     /// <summary>
     /// 运算结果

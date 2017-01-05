@@ -5,34 +5,70 @@
 //************************************************************//
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace GF47RunTime.Tween.Base
+namespace GF47RunTime.Tween
 {
     /// <summary>
     /// Author              :GF47
     /// DataTime            :2014/3/2 2:44:32
-    /// [TweenBase]    Introduction    :缓动基类
+    /// Introduction        :缓动基类
     /// </summary>
-    public abstract class TweenBase : MonoBehaviour
+    public class TweenBase : MonoBehaviour, IPercent
     {
-        public const int PublicGroup = 0;
+        /// <summary>
+        /// 公共组
+        /// </summary>
+        public const int PUBLIC_GROUP = 0;
 
-        public Action<TweenBase> OnFinished;
-
+        /// <summary>
+        /// 缓动方式
+        /// </summary>
         public TweenEase easeType = TweenEase.Linear;
+        /// <summary>
+        /// 循环方式
+        /// </summary>
         public TweenLoop loopType = TweenLoop.Once;
 
-        public bool realTime = true;
+        /// <summary>
+        /// 是否使用真实时间
+        /// </summary>
+        public bool useRealTime = true;
 
+        /// <summary>
+        /// 延迟
+        /// </summary>
         public float delay = 0.0f;
 
+        /// <summary>
+        /// 缓动一次持续的时间
+        /// </summary>
         public float duration = 1.0f;
 
+        /// <summary>
+        /// 当一个GameObject上有不同的[TweenBase]脚本的时候进行的分组
+        /// </summary>
         public int tweenGroup = 1;
 
+        /// <summary>
+        /// 完成一个缓动行为后的回调
+        /// </summary>
+        public Action<TweenBase> OnFinished;
+
+        #region 将SendMessage方式改为Unity自身的事件系统
+        // TODO 将SendMessage方式改为Unity自身的事件系统
+        /// <summary>
+        /// 完成一个缓动行为后的回调事件的接收者
+        /// </summary>
         public GameObject eventReceiver;
+        /// <summary>
+        /// 完成一个缓动行为后的回调，字符串形式
+        /// </summary>
         public string callWhenFinished;
+        #endregion
+
+        public List<IPercent> targets;
 
         private bool _started;
         private float _startTime;
@@ -45,6 +81,12 @@ namespace GF47RunTime.Tween.Base
         private DirectionAlgorithm _direction;
         private LoopAlgorithm _loop;
 
+        float IPercent.Percent
+        {
+            get { return _result.factor; }
+            set { _result.factor = value; }
+        }
+
         void Start()
         {
             ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
@@ -53,8 +95,8 @@ namespace GF47RunTime.Tween.Base
 
         void Update()
         {
-            float delta = realTime ? Updater.MonoUpdater.RealDelta : Time.deltaTime;
-            float time = realTime ? Updater.MonoUpdater.RealTime : Time.time;
+            float delta = useRealTime ? Updater.MonoUpdater.RealDelta : Time.deltaTime;
+            float time = useRealTime ? Updater.MonoUpdater.RealTime : Time.time;
 
             if (!_started)
             {
@@ -75,7 +117,13 @@ namespace GF47RunTime.Tween.Base
 
         protected void Sample(float factor, bool finished)
         {
-            SetPercent(factor, finished);
+            for (int i = 0; i < targets.Count; i++)
+            {
+                if (targets[0] != null)
+                {
+                    targets[i].Percent = factor;
+                }
+            }
             if (finished)
             {
                 OnFinishedBehaviour();
@@ -101,13 +149,6 @@ namespace GF47RunTime.Tween.Base
                 _amountPerDelta = (_duration > 0 ? (1.0f / _duration) : 1000f);
             }
             return _amountPerDelta;
-        }
-
-        public abstract void SetPercent(float factor, bool isFinished);
-
-        public float GetPercent()
-        {
-            return _result.factor;
         }
 
         public void ResetAlgorithm(TweenEase ease, TweenLoop loop, TweenDirection dir)
@@ -175,12 +216,12 @@ namespace GF47RunTime.Tween.Base
             enabled = true;
         }
 
-        public static T Begin<T>(GameObject go, float duration) where T : TweenBase
+        public static TweenBase Begin(GameObject go, float duration)
         {
-            T temp = go.GetComponent<T>();
+            TweenBase temp = go.GetComponent<TweenBase>();
             if (temp == null)
             {
-                temp = go.AddComponent<T>();
+                temp = go.AddComponent<TweenBase>();
             }
             temp._started = false;
             temp.duration = duration;
@@ -192,6 +233,35 @@ namespace GF47RunTime.Tween.Base
             temp.callWhenFinished = null;
             temp.enabled = true;
             return temp;
+        }
+        public static TweenBase Begin<T, T2>(float duration, T from, T to, GameObject root, params GameObject[] targets)
+            where T2 : Tween<T>
+        {
+            TweenBase tb = Begin(root, duration);
+            if (targets != null)
+            {
+                for (int i = 0; i < targets.Length; i++)
+                {
+                    T2 t = targets[i].GetComponent<T2>();
+                    if (t == null)
+                    {
+                        t = targets[i].AddComponent<T2>();
+                    }
+
+                    t.from = from;
+                    t.to = to;
+                    if (!tb.targets.Contains(t))
+                    {
+                        tb.targets.Add(t);
+                    }
+                }
+                if (duration <= 0f)
+                {
+                    tb.Sample(1.0f, true);
+                    tb.enabled = false;
+                }
+            }
+            return tb;
         }
     }
 }

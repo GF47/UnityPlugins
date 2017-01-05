@@ -5,8 +5,6 @@
 //************************************************************//
 namespace GF47RunTime.Tween
 {
-
-    using Base;
     using UnityEngine;
 
     /// <summary>
@@ -14,20 +12,8 @@ namespace GF47RunTime.Tween
     /// DataTime        :2013/9/17 星期二 14:44:27
     /// [TweenScale] Introduction  :Nothing to introduce
     /// </summary>
-    public class TweenScale : TweenVector3
+    public class TweenScale : Tween<Vector3>
     {
-        public override Vector3 Percent
-        {
-            get
-            {
-                return target.localScale;
-            }
-            set
-            {
-                target.localScale = value;
-            }
-        }
-
         public Transform target;
 
         void Awake()
@@ -36,6 +22,11 @@ namespace GF47RunTime.Tween
             {
                 target = transform;
             }
+            setValue = delegate (float f)
+             {
+                 target.localScale = Vector3.Lerp(from, to, f);
+                 return target.localScale;
+             };
         }
     }
 }

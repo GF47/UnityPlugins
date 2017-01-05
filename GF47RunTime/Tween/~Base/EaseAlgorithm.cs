@@ -4,7 +4,7 @@
 //      Edited      :       2014/2/24 23:01:18
 //************************************************************//
 
-namespace GF47RunTime.Tween.Base
+namespace GF47RunTime.Tween
 {
     /// <summary>
     /// 缓动算法

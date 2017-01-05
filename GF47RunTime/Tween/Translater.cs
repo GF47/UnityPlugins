@@ -5,7 +5,6 @@
 //************************************************************//
 namespace GF47RunTime.Tween
 {
-    using Base;
     using UnityEngine;
 
     /// <summary>
@@ -13,30 +12,25 @@ namespace GF47RunTime.Tween
     /// DataTime        :2013/9/18 星期三 17:39:04
     /// [Translater] 目标物体移动
     /// </summary>
-    public class Translater : TweenBase
+    public class Translater : Tween<Vector3>
     {
-        public Vector3 from,to;
-
-        public override void SetPercent(float factor, bool isFinished)
+        void Awake()
         {
-            transform.localPosition = Vector3.Lerp(from, to, factor);
+            setValue = delegate(float f)
+            {
+                transform.localPosition = Vector3.Lerp(from, to, f);
+                return transform.localPosition;
+            };
         }
 
         public static Translater Begin(GameObject go, float duration, Vector3 from, Vector3 to, TweenEase easeType, TweenLoop loopType)
         {
-            Translater comp = Begin<Translater>(go, duration);
-            comp.tweenGroup = PublicGroup;
-            comp.from = from;
-            comp.to = to;
-            comp.ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
-            comp.loopType = loopType;
-            
-            if (duration <= 0.0f)
+            TweenBase tb = TweenBase.Begin<Vector3, Translater>(duration, from, to, go, go);
+            if (tb.targets != null && tb.targets.Count > 0)
             {
-                comp.Sample(1.0f, true);
-                comp.enabled = false;
+                return tb.targets[0] as Translater;
             }
-            return comp;
+            return null;
         }
     }
 

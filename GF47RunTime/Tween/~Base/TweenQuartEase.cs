@@ -1,4 +1,4 @@
-﻿namespace GF47RunTime.Tween.Base
+﻿namespace GF47RunTime.Tween
 {
     internal class TweenQuartEaseIn : TweenLinear
     {

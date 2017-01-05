@@ -4,7 +4,7 @@
 //      Edited      :       2014/2/24 22:12:34
 //************************************************************//
 
-namespace GF47RunTime.Tween.Base
+namespace GF47RunTime.Tween
 {
     internal class TweenCubicEaseIn : TweenLinear
     {

@@ -4,7 +4,7 @@
 //      Edited      :       2014/3/2 3:11:30
 //************************************************************//
 
-namespace GF47RunTime.Tween.Base
+namespace GF47RunTime.Tween
 {
     /// <summary>
     /// 循环算法

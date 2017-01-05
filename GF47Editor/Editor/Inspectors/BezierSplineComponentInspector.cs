@@ -1,9 +1,11 @@
 ﻿#define LAST_ACTIVE_SCENE_VIEW
 
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
+using GF47RunTime.Components;
+using GF47RunTime.Geometry.Bezier;
 
-namespace GF47.Bezier.Editor
+namespace GF47Editor.Editor.Inspectors
 {
     [CustomEditor(typeof(BezierSplineComponent), true)]
     public class BezierSplineComponentInspector : UnityEditor.Editor

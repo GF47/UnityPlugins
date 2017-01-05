@@ -4,7 +4,7 @@
 //      Edited      :       2014/2/24 22:43:09
 //************************************************************//
 
-namespace GF47RunTime.Tween.Base
+namespace GF47RunTime.Tween
 {
     public enum TweenEase
     {

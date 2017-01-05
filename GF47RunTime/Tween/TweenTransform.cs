@@ -5,8 +5,6 @@
 //************************************************************//
 namespace GF47RunTime.Tween
 {
-
-    using Base;
     using UnityEngine;
 
     /// <summary>
@@ -14,59 +12,52 @@ namespace GF47RunTime.Tween
     /// DataTime        :2013/9/17 星期二 15:48:07
     /// [TweenTransform] Introduction  :Nothing to introduce
     /// </summary>
-    public class TweenTransform : TweenBase
+    public class TweenTransform : Tween<Transform>
     {
-        public Transform from;
-        public Transform to;
-
         private Transform _transform;
         private Vector3 _position;
         private Quaternion _rotation;
         private Vector3 _scale;
 
-        public override void SetPercent(float factor, bool isFinished)
+        void Awake()
         {
-            if (to != null)
+            setValue = delegate(float f)
             {
-                if (_transform == null)
+                if (to != null)
                 {
-                    _transform = transform;
-                    _position = _transform.position;
-                    _rotation = _transform.rotation;
-                    _scale = _transform.localScale;
+                    if (from != null)
+                    {
+                        _transform.position = Vector3.Lerp(from.position, to.position, f);
+                        _transform.localScale = Vector3.Lerp(from.localScale, to.localScale, f);
+                        _transform.rotation = Quaternion.Slerp(from.rotation, to.rotation, f);
+                    }
+                    else
+                    {
+                        _transform.position = Vector3.Lerp(_position, to.position, f);
+                        _transform.localScale = Vector3.Lerp(_scale, to.localScale, f);
+                        _transform.rotation = Quaternion.Slerp(_rotation, to.rotation, f);
+                    }
                 }
-
-                if (from != null)
-                {
-                    _transform.position = Vector3.Lerp(from.position, to.position, factor);
-                    _transform.localScale = Vector3.Lerp(from.localScale, to.localScale, factor);
-                    _transform.rotation = Quaternion.Slerp(from.rotation, to.rotation, factor);
-                }
-                else
-                {
-                    _transform.position = Vector3.Lerp(_position, to.position, factor);
-                    _transform.localScale = Vector3.Lerp(_scale, to.localScale, factor);
-                    _transform.rotation = Quaternion.Slerp(_rotation, to.rotation, factor);
-                }
-            }
+                return _transform;
+            };
         }
 
         public static TweenTransform Begin(GameObject go, float duration, Transform to)
         {
-            return Begin(go, duration, null, to);
+            TweenTransform tt = Begin(go, duration, null, to);
+            tt._position = go.transform.localPosition;
+            tt._scale = go.transform.localScale;
+            tt._rotation = go.transform.localRotation;
+            return tt;
         }
         public static TweenTransform Begin(GameObject go, float duration, Transform from, Transform to)
         {
-            TweenTransform comp = Begin<TweenTransform>(go, duration);
-            comp.from = from;
-            comp.to = to;
-
-            if (duration <= 0.0f)
+            TweenBase tb = TweenBase.Begin<Transform, TweenTransform>(duration, from, to, go, go);
+            if (tb.targets != null && tb.targets.Count > 0)
             {
-                comp.Sample(1.0f, true);
-                comp.enabled = false;
+                return tb.targets[0] as TweenTransform;
             }
-            return comp;
+            return null;
         }
     }
 }

@@ -5,8 +5,6 @@
 //************************************************************//
 namespace GF47RunTime.Tween
 {
-
-    using Base;
     using UnityEngine;
 
     /// <summary>
@@ -14,21 +12,12 @@ namespace GF47RunTime.Tween
     /// DataTime        :2013/9/17 星期二 14:41:26
     /// [TweenRotation] Introduction  :Nothing to introduce
     /// </summary>
-    public class TweenRotation : TweenVector3
+    public class TweenRotation : Tween<Vector3>
     {
-        public override Vector3 Percent
-        {
-            get
-            {
-                return target.localEulerAngles;
-            }
-            set
-            {
-                target.localEulerAngles = value;
-            }
-        }
-
         public Transform target;
+
+        private Quaternion _from;
+        private Quaternion _to;
 
         void Awake()
         {
@@ -36,30 +25,15 @@ namespace GF47RunTime.Tween
             {
                 target = transform;
             }
-        }
 
-        [ContextMenu("复制Transform到From")]
-        private void TransformToFrom()
-        {
-            from = transform.localEulerAngles;
-        }
+            _from = Quaternion.Euler(from);
+            _to = Quaternion.Euler(to);
 
-        [ContextMenu("复制Transform到To")]
-        private void TransformToTo()
-        {
-            to = transform.localEulerAngles;
-        }
-
-        [ContextMenu("复制From到Transform")]
-        private void FromToTransform()
-        {
-            transform.localEulerAngles = from;
-        }
-
-        [ContextMenu("复制To到Transform")]
-        private void ToToTransform()
-        {
-            transform.localEulerAngles = to;
+            setValue = delegate (float f)
+            {
+                target.localRotation = Quaternion.Slerp(_from, _to, f);
+                 return target.localEulerAngles;
+             };
         }
     }
 }

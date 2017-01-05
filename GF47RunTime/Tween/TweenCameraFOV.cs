@@ -3,9 +3,9 @@
 //      DataTime    :       2014/2/13 星期四 16:37:34
 //      Edited      :       2014/2/13 星期四 16:37:34
 //************************************************************//
+
 namespace GF47RunTime.Tween
 {
-    using Base;
     using UnityEngine;
 
     /// <summary>
@@ -13,20 +13,25 @@ namespace GF47RunTime.Tween
     /// DataTime        :2014/2/13 星期四 16:37:34
     /// [TweenCameraFOV] Introduction  :Nothing to introduce
     /// </summary>
-    public class TweenCameraFOV : TweenFloat
+    public class TweenCameraFOV : Tween<float>
     {
-        public override float Percent
-        {
-            get { return target.fieldOfView; }
-            set { target.fieldOfView = value; }
-        }
-
         public Camera target;
+
         void Awake()
         {
+            if (target == null) { target = GetComponent<Camera>(); }
+
             if (target == null)
             {
-                target = GetComponent<Camera>();
+                Destroy(this);
+            }
+            else
+            {
+                setValue = delegate (float f)
+                {
+                    target.fieldOfView = Mathf.Lerp(from, to, f);
+                    return target.fieldOfView;
+                };
             }
         }
     }

@@ -5,7 +5,6 @@
 //************************************************************//
 
 using GF47RunTime.Tween;
-using GF47RunTime.Tween.Base;
 using UnityEngine;
 
 namespace GF47RunTime.Components.CameraUtility

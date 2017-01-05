@@ -5,7 +5,6 @@
 //************************************************************//
 namespace GF47RunTime.Tween
 {
-    using Base;
     using UnityEngine;
 
     /// <summary>
@@ -13,35 +12,41 @@ namespace GF47RunTime.Tween
     /// DataTime        :2013/9/10 11:37:19
     /// [CameraTranslater] Introduction    :nothing to introduce
     /// </summary>
-    public class CameraTranslater : TweenBase
+    public class CameraTranslater : Tween<Vector3>
     {
         public struct CameraTargetPositions
         {
             public CameraTargetPositions(Transform target, Vector3 from, Vector3 to)
             {
-                theTarget = target;
-                targetFromPosition = from;
-                targetToPosition = to;
+                this.target = target;
+                targetFrom = from;
+                targetTo = to;
             }
             public CameraTargetPositions(Transform target)
             {
-                theTarget = target;
-                targetFromPosition = target.localPosition;
-                targetToPosition = target.localPosition;
+                this.target = target;
+                targetFrom = target.localPosition;
+                targetTo = target.localPosition;
             }
-            public Transform theTarget;
-            public Vector3 targetFromPosition;
-            public Vector3 targetToPosition;
+            public Transform target;
+            public Vector3 targetFrom;
+            public Vector3 targetTo;
         }
+
         public Transform target;
-        public Vector3 from, to, targetFrom, targetTo;
+        public Vector3 targetFrom, targetTo;
         public enum TranslateMode { Linear, Interpolation }
         public TranslateMode translateMode = TranslateMode.Linear;
         
         private float _startRadius, _endRadius, _currentRadius;
         private Quaternion _startQuaternion, _endQuaternion;
 
-        public override void SetPercent(float factor, bool isFinished)
+        void Awake()
+        {
+            setValue = SetPercent;
+        }
+
+        private Vector3 SetPercent(float factor)
         {
             switch (translateMode)
             {
@@ -55,6 +60,7 @@ namespace GF47RunTime.Tween
                     LinearTranslate(factor);
                     break;
             }
+            return transform.localPosition;
         }
 
         private void LinearTranslate(float value)
@@ -84,35 +90,20 @@ namespace GF47RunTime.Tween
 
         public static CameraTranslater Begin(GameObject go, float duration, Vector3 from, Vector3 to, CameraTargetPositions targetPositions, TweenEase easeType, TweenLoop loopType,TranslateMode translateMode)
         {
-            CameraTranslater comp = Begin<CameraTranslater>(go, duration);
-            comp.tweenGroup = PublicGroup;
-            comp.target = targetPositions.theTarget;
-            comp.ResetValue(from, to, targetPositions.targetFromPosition, targetPositions.targetToPosition);
-            comp.ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
-            comp.loopType = loopType;
-            comp.translateMode = translateMode;
-
-            if (duration <= 0.0f)
+            TweenBase tb = TweenBase.Begin<Vector3, CameraTranslater>(duration, from, to, go, go);
+            tb.ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
+            if (tb.targets != null && tb.targets.Count > 0)
             {
-                comp.Sample(1.0f, true);
-                comp.enabled = false;
+                CameraTranslater ct = tb.targets[0] as CameraTranslater;
+                if (ct != null)
+                {
+                    ct.target = targetPositions.target;
+                    ct.ResetValue(from, to, targetPositions.targetFrom, targetPositions.targetTo);
+                    ct.translateMode = translateMode;
+                    return ct;
+                }
             }
-            return comp;
+            return null;
         }
-
-        //public static CameraTranslater Begin(GameObject go, float duration, Vector3 from, Vector3 to, Vector3 targetFrom, Vector3 targetTo, TweenEase easeType, TweenLoop loopType, TranslateMode translateMode)
-        //{
-        //    CameraTranslater comp = Begin<CameraTranslater>(go, duration);
-        //    comp.tweenGroup = PublicGroup;
-        //    comp.ResetValue(from, to, targetFrom, targetTo);
-        //    comp.ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
-        //    comp.translateMode = translateMode;
-        //    if (duration <= 0f)
-        //    {
-        //        comp.Sample(1f, true);
-        //        comp.enabled = false;
-        //    }
-        //    return comp;
-        //}
     }
 }
