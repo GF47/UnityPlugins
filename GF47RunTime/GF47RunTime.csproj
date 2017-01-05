@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D0508B08-8B48-4C68-B29C-76D96809DBBE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GF47RunTime</RootNamespace>
+    <AssemblyName>GF47RunTime</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;UNITY_EDITOR</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>UNITY_STANDALONE_WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;UNITY_EDITOR</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>UNITY_STANDALONE_WIN</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;UNITY_EDITOR</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>UNITY_STANDALONE_WIN</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Data">
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Mono\lib\mono\2.0\Mono.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Mono\lib\mono\2.0\Mono.Data.Sqlite.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
+    <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\unity5.3.4\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\unity5.3.4\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionSystem\ActionContainerList.cs" />
+    <Compile Include="ActionSystem\MutualExclusionGroup.cs" />
+    <Compile Include="BlackBoard.cs" />
+    <Compile Include="CameraUtility.cs" />
+    <Compile Include="Components\BezierCurve.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Components\BezierSplineComponent.cs" />
+    <Compile Include="Components\CameraUtility\CameraController.cs" />
+    <Compile Include="Components\CameraUtility\CameraTargetController.cs" />
+    <Compile Include="ActionSystem\ActionTrigger.cs" />
+    <Compile Include="ActionSystem\ActionNode.cs" />
+    <Compile Include="ActionSystem\ActionContainer.cs" />
+    <Compile Include="ActionSystem\TriggerMethod.cs" />
+    <Compile Include="Convert.cs" />
+    <Compile Include="Coroutine\WaitForEndOfAnimation.cs" />
+    <Compile Include="Data\AssetBundlesReader.cs" />
+    <Compile Include="Data\SqliteHelper.cs" />
+    <Compile Include="Data\XmlTools.cs" />
+    <Compile Include="FSM\BaseState.cs" />
+    <Compile Include="FSM\EmptyState.cs" />
+    <Compile Include="FSM\FiniStateMachine.cs" />
+    <Compile Include="FSM\FSMUtility.cs" />
+    <Compile Include="FSM\IState.cs" />
+    <Compile Include="Geometry\Bezier\BezierPoint.cs" />
+    <Compile Include="Geometry\Bezier\BezierResult.cs" />
+    <Compile Include="Geometry\Bezier\BezierSpline.cs" />
+    <Compile Include="Geometry\Line.cs" />
+    <Compile Include="Geometry\Utilities.cs" />
+    <Compile Include="GF47Attributes\EnumFlagsAttribute.cs" />
+    <Compile Include="MonoCarrier.cs" />
+    <Compile Include="Pool.cs" />
+    <Compile Include="Tween\Translater.cs" />
+    <Compile Include="Tween\CameraTranslater.cs" />
+    <Compile Include="Components\CameraUtility\PanoramaCamera.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Toolkit.cs" />
+    <Compile Include="Tween\Base\DirectionAlgorithm.cs" />
+    <Compile Include="Tween\Base\EaseAlgorithm.cs" />
+    <Compile Include="Tween\Base\TweenCubicEase.cs" />
+    <Compile Include="Tween\Base\TweenLinear.cs" />
+    <Compile Include="Tween\Base\TweenQuadEase.cs" />
+    <Compile Include="Tween\Base\TweenQuartEase.cs" />
+    <Compile Include="Tween\Base\Factor.cs" />
+    <Compile Include="Tween\Base\LoopAlgorithm.cs" />
+    <Compile Include="Tween\Base\TweenBase.cs" />
+    <Compile Include="Tween\Base\TweenType.cs" />
+    <Compile Include="Tween\Base\TweenFloat.cs" />
+    <Compile Include="Tween\Base\TweenFloatBase.cs" />
+    <Compile Include="Tween\Base\TweenVector2.cs" />
+    <Compile Include="Tween\Base\TweenVector2Base.cs" />
+    <Compile Include="Tween\Base\TweenVector3.cs" />
+    <Compile Include="Tween\Base\TweenVector3Base.cs" />
+    <Compile Include="Tween\Base\TweenVector4.cs" />
+    <Compile Include="Tween\Base\TweenVector4Base.cs" />
+    <Compile Include="Tween\TweenCameraFOV.cs" />
+    <Compile Include="Tween\TweenCameraMatrix.cs" />
+    <Compile Include="Tween\TweenPosition.cs" />
+    <Compile Include="Tween\TweenRotation.cs" />
+    <Compile Include="Tween\TweenScale.cs" />
+    <Compile Include="Tween\TweenTransform.cs" />
+    <Compile Include="UI\IButtonItem.cs" />
+    <Compile Include="UI\IUserInterfaceView.cs" />
+    <Compile Include="UnityEventArgs.cs" />
+    <Compile Include="Updater\CustomUpdateNode.cs" />
+    <Compile Include="Updater\FloatBuffer.cs" />
+    <Compile Include="Updater\IUpdateNode.cs" />
+    <Compile Include="Updater\NormalUpdateNode.cs" />
+    <Compile Include="Updater\PerAfterFrameUpdateNode.cs" />
+    <Compile Include="Updater\PerFixedFrameUpdateNode.cs" />
+    <Compile Include="Updater\PerFrameUpdateNode.cs" />
+    <Compile Include="Updater\MonoUpdater.cs" />
+    <Compile Include="Updater\Updater.cs" />
+    <Compile Include="Updater\IValueBuffer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Data\" />
+    <Folder Include="Math\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
