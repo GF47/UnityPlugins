@@ -21,6 +21,7 @@ namespace GF47RunTime.Tween
 
         void Awake()
         {
+            _transform = transform;
             setValue = delegate(float f)
             {
                 if (to != null)
