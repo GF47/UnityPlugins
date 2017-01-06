@@ -38,5 +38,15 @@ namespace UnitTestProject
             Assert.AreEqual(10.2f, array[0]);
             Assert.AreEqual(1.732f, array[3]);
         }
+
+        [TestMethod]
+        public void GameObject的扩展方法()
+        {
+            GameObject go = new GameObject();
+            go.AddChild();
+            go.AddChild(go);
+            go.AddChild<BoxCollider>();
+            go.FindInParent<BoxCollider>();
+        }
     }
 }

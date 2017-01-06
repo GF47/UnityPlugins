@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -139,7 +138,7 @@ namespace GF47RunTime
         private const string ColorType0 = "color";
         private const string ColorType1 = "Color";
         private const string ColorType2 = "UnityEngine.Color";
-        public static System.Object ConvertTo(string type, string value)
+        public static object ConvertTo(string type, string value)
         {
             System.Object result = null;
             switch (type)

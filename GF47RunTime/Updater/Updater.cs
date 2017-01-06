@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using UnityEngine;
+
     public class Updater
     {
         public float RealTime
@@ -89,7 +90,7 @@
             if (Input.GetMouseButtonDown(1))
             {
                 RaycastHit hit;
-                if (Toolkit.GetCurrentCollisionAtMousePosition(MainCamera, out hit))
+                if (MainCamera.GetCurrentHitAtMousePosition(out hit))
                 {
                     _mouseRightButtonTarget = hit.collider.gameObject;
                     _mouseRightButtonTarget.SendMessage("OnMouseRightDown", SendMessageOptions.DontRequireReceiver);
@@ -102,7 +103,7 @@
                     _mouseRightButtonTarget.SendMessage("OnMouseRightUp", SendMessageOptions.DontRequireReceiver);
 
                     RaycastHit hit;
-                    if (Toolkit.GetCurrentCollisionAtMousePosition(MainCamera, out hit))
+                    if (MainCamera.GetCurrentHitAtMousePosition(out hit))
                     {
                         if (_mouseRightButtonTarget == hit.collider.gameObject)
                         {

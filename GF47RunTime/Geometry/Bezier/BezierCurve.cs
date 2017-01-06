@@ -9,7 +9,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GF47RunTime.Components
+namespace GF47RunTime.Geometry.Bezier
 {
     /// <summary>
     /// 贝塞尔曲线

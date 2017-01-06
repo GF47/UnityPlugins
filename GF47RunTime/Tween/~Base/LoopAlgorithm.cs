@@ -22,7 +22,7 @@ namespace GF47RunTime.Tween
             {
                 case 0: // Once
                     _factor = percent;
-                    return new Factor(Toolkit.Clamp(_factor, 0f, 1f), _factor >= 1.0f);
+                    return new Factor(_factor.Clamp(0f, 1f), _factor >= 1.0f);
                 case 1: // Loop
                     _factor = percent;
                     return new Factor(_factor % 1.0f, false);

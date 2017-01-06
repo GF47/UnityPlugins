@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-
-namespace GF47RunTime
+﻿namespace GF47RunTime
 {
-    public static class CameraUtility
+    using UnityEngine;
+
+    public static class CameraExtend
     {
-        public static bool GetCurrentCollisionAtMousePosition(this Camera camera, out RaycastHit hit, float distance = -1f)
+        public static bool GetCurrentHitAtMousePosition(this Camera camera, out RaycastHit hit, float distance = -1f)
         {
             if (camera != null)
             {
