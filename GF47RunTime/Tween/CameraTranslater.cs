@@ -19,18 +19,18 @@ namespace GF47RunTime.Tween
             public CameraTargetPositions(Transform target, Vector3 from, Vector3 to)
             {
                 this.target = target;
-                targetFrom = from;
-                targetTo = to;
+                this.from = from;
+                this.to = to;
             }
             public CameraTargetPositions(Transform target)
             {
                 this.target = target;
-                targetFrom = target.localPosition;
-                targetTo = target.localPosition;
+                @from = target.localPosition;
+                to = target.localPosition;
             }
             public Transform target;
-            public Vector3 targetFrom;
-            public Vector3 targetTo;
+            public Vector3 from;
+            public Vector3 to;
         }
 
         public Transform target;
@@ -44,6 +44,7 @@ namespace GF47RunTime.Tween
         void Awake()
         {
             setValue = SetPercent;
+            Reset();
         }
 
         private Vector3 SetPercent(float factor)
@@ -75,21 +76,28 @@ namespace GF47RunTime.Tween
             transform.localPosition = transform.localRotation * new Vector3(0.0f, 0.0f, -_currentRadius) + target.localPosition;
         }
 
-        private void ResetValue(Vector3 f, Vector3 t, Vector3 tf, Vector3 tt)
+        private void SetVectors(Vector3 f, Vector3 t, Vector3 tf, Vector3 tt)
         {
             from = f;
             to = t;
             targetFrom = tf;
             targetTo = tt;
+        }
 
-            _startRadius = Vector3.Distance(tf, f);
-            _endRadius = Vector3.Distance(tt, t);
-            _startQuaternion = Quaternion.LookRotation(tf - f);
-            _endQuaternion = Quaternion.LookRotation(tt - t);
+        private void Reset()
+        {
+            Vector3 f = targetFrom - from;
+            Vector3 t = targetTo - to;
+
+            _startRadius = f.magnitude;
+            _endRadius = t.magnitude;
+            _startQuaternion = Quaternion.LookRotation(f);
+            _endQuaternion = Quaternion.LookRotation(t);
         }
 
         public static CameraTranslater Begin(GameObject go, float duration, Vector3 from, Vector3 to, CameraTargetPositions targetPositions, TweenEase easeType, TweenLoop loopType,TranslateMode translateMode)
         {
+            TweenBase.Begin<Vector3, Translater>(duration, targetPositions.@from, targetPositions.to, go, targetPositions.target.gameObject);
             TweenBase tb = TweenBase.Begin<Vector3, CameraTranslater>(duration, from, to, go, go);
             tb.ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
             if (tb.targets != null && tb.targets.Count > 0)
@@ -98,7 +106,8 @@ namespace GF47RunTime.Tween
                 if (ct != null)
                 {
                     ct.target = targetPositions.target;
-                    ct.ResetValue(from, to, targetPositions.targetFrom, targetPositions.targetTo);
+                    ct.SetVectors(from, to, targetPositions.from, targetPositions.to);
+                    ct.Reset();
                     ct.translateMode = translateMode;
                     return ct;
                 }

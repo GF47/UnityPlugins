@@ -24,6 +24,10 @@ namespace GF47Editor.Editor.Inspectors
         void OnEnable()
         {
             _tweenBase = (TweenBase)target;
+            if (_tweenBase._iPercentTargets == null)
+            {
+                _tweenBase._iPercentTargets = new List<MonoBehaviour>();
+            }
         }
 
         public override void OnInspectorGUI()
