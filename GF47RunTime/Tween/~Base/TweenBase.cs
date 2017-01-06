@@ -68,6 +68,7 @@ namespace GF47RunTime.Tween
         public string callWhenFinished;
         #endregion
 
+        public List<MonoBehaviour> _iPercentTargets;
         public List<IPercent> targets;
 
         private bool _started;
@@ -87,6 +88,26 @@ namespace GF47RunTime.Tween
             set { _result.factor = value; }
         }
 
+        void Awake()
+        {
+            if (_iPercentTargets != null)
+            {
+                targets = new List<IPercent>(_iPercentTargets.Count);
+                for (int i = 0; i < _iPercentTargets.Count; i++)
+                {
+                    IPercent temp = _iPercentTargets[i] as IPercent;
+                    if (temp != null)
+                    {
+                        targets.Add(temp);
+                    }
+                }
+                _iPercentTargets.Clear();
+            }
+            else
+            {
+                targets = new List<IPercent>();
+            }
+        }
         void Start()
         {
             ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
@@ -265,3 +286,4 @@ namespace GF47RunTime.Tween
         }
     }
 }
+

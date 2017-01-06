@@ -6,6 +6,8 @@
  * @Edit            : none
  **************************************************************/
 
+using System;
+
 namespace GF47RunTime
 {
     public interface IPercent
