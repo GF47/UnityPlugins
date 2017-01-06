@@ -3,56 +3,35 @@ using System.Collections.Generic;
 
 namespace GF47RunTime
 {
-    public class BlackBoard : IEnumerable<KeyValuePair<string, BlackBoard.BbItem>>
+    public class BlackBoard : IEnumerable<KeyValuePair<string, object>>
     {
-        public class BbItem
-        {
-            public object Value { get { return _value; } }
-            private object _value;
-
-            public void SetValue(object v)
-            {
-                _value = v;
-            }
-
-            public T GetValue<T>()
-            {
-                return (T)_value;
-            }
-        }
-
-        private Dictionary<string, BbItem> _items;
+        private Dictionary<string, object> _items;
 
         public BlackBoard()
         {
-            _items = new Dictionary<string, BbItem>();
+            _items = new Dictionary<string, object>();
         }
 
         public void SetValue(string key, object v)
         {
-            BbItem item;
-            if (_items.ContainsKey(key))
-            {
-                item = _items[key];
-            }
-            else
-            {
-                item = new BbItem();
-                _items.Add(key, item);
-            }
-            item.SetValue(v);
+            if (_items.ContainsKey(key)) { _items[key] = v; }
+            else { _items.Add(key, v); }
         }
 
         public T GetValue<T>(string key, T defaultValue)
         {
             if (_items.ContainsKey(key))
             {
-                return _items[key].GetValue<T>();
+                object v = _items[key];
+                if (v is T)
+                {
+                    return (T)v;
+                }
             }
             return defaultValue;
         }
 
-        public IEnumerator<KeyValuePair<string, BbItem>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
             return _items.GetEnumerator();
         }
