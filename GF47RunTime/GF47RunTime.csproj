@@ -125,7 +125,7 @@
     <Compile Include="Geometry\Bezier\BezierSpline.cs" />
     <Compile Include="Geometry\Line.cs" />
     <Compile Include="Geometry\Utilities.cs" />
-    <Compile Include="GF47Attributes\EnumFlagsAttribute.cs" />
+    <Compile Include="Attributes\EnumFlagsAttribute.cs" />
     <Compile Include="MonoCarrier.cs" />
     <Compile Include="Pool.cs" />
     <Compile Include="Tween\TweenTransform.cs" />
