@@ -4,6 +4,14 @@ namespace UnitTestProject.Test
 {
     public class State_1 : BaseState<string>
     {
+        public override bool CanExitSafely
+        {
+            get { return _canExitSafely; }
+            protected set { _canExitSafely = value; }
+        }
+
+        private bool _canExitSafely;
+
         public State_1(int id) : base(id) { } 
         public override void OnEnter()
         {

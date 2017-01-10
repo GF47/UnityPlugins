@@ -10,6 +10,8 @@ namespace GF47RunTime.FSM
 
         public int ID { get { return _id; } }
 
+        public virtual bool CanExitSafely { get { return true; } protected set { } }
+
         protected BaseState(int id)
         {
             if (!FSMUtility.IsLogicalStateID(id))
@@ -21,11 +23,14 @@ namespace GF47RunTime.FSM
             _nextStateID = _id;
         }
 
-        public void GetInput(T input)
+        public virtual void GetInput(T input)
         {
-            if (_nextStates.ContainsKey(input))
+            if (CanExitSafely)
             {
-                _nextStateID = _nextStates[input];
+                if (_nextStates.ContainsKey(input))
+                {
+                    _nextStateID = _nextStates[input];
+                }
             }
         }
 
@@ -40,6 +45,7 @@ namespace GF47RunTime.FSM
 
         public virtual void Reset()
         {
+            CanExitSafely = true;
             _nextStateID = _id;
         }
 
