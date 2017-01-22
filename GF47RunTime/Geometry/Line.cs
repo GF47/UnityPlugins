@@ -66,6 +66,11 @@ namespace GF47RunTime.Geometry
             _points[1] = b;
         }
 
+        public Vector3 GetPoint(float distance)
+        {
+            return A + distance * Normal;
+        }
+
         public static Vector3 GetPoint(Line a, float distance)
         {
             return a.A + distance * a.Normal;
