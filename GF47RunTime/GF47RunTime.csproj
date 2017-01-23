@@ -151,8 +151,6 @@
     <Compile Include="Tween\TweenPosition.cs" />
     <Compile Include="Tween\TweenRotation.cs" />
     <Compile Include="Tween\TweenScale.cs" />
-    <Compile Include="UI\IButtonItem.cs" />
-    <Compile Include="UI\IUserInterfaceView.cs" />
     <Compile Include="UnityEventArgs.cs" />
     <Compile Include="Updater\CustomUpdateNode.cs" />
     <Compile Include="Updater\FloatBuffer.cs" />
