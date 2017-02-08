@@ -30,7 +30,7 @@ namespace GF47RunTime
             while (parent != root)
             {
                 parent = t.parent;
-                int i = t.GetSiblingIndex();
+                list.Add(t.GetSiblingIndex());
                 t = parent;
             }
             if (!isChildToRoot)
