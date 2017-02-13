@@ -7,46 +7,43 @@ namespace GF47RunTime
     {
         private Queue<T> _queue;
         private Func<T> _createNewFunc;
-        private Action<T> _resetAction;
 
-        public void Initialize(int count, Func<T> createNewFunc, Action<T> resetAction = null)
+        public void Initialize(int count, Func<T> createNewFunc)
         {
             _queue = new Queue<T>(count);
             _createNewFunc = createNewFunc;
-            _resetAction = resetAction;
             for (int i = 0; i < count; i++)
             {
                 T item = _createNewFunc();
-                if (_resetAction != null) { _resetAction(item); }
                 _queue.Enqueue(item);
             }
         }
 
-        public T Get()
+        public T Get(Action<T> callback = null)
         {
+            T item;
             if (_queue.Count == 0)
             {
-                T item = _createNewFunc();
-                if (_resetAction != null)
-                {
-                    _resetAction(item);
-                }
+                item = _createNewFunc();
+                if (callback != null) { callback(item); }
                 return item;
             }
-            return _queue.Dequeue();
+            item = _queue.Dequeue();
+            if (callback != null) { callback(item); }
+            return item;
         }
 
-        public T[] Get(int count)
+        public T[] Get(int count, Action<T> callback = null)
         {
             T[] result = new T[count];
             for (int i = 0; i < count; i++)
             {
-                result[i] = Get();
+                result[i] = Get(callback);
             }
             return result;
         }
 
-        public void Reset(T target)
+        public void Reset(T target, Action<T> callback = null)
         {
             if (target == null)
             {
@@ -56,15 +53,15 @@ namespace GF47RunTime
                 return;
 #endif
             }
-            if (_resetAction != null) { _resetAction(target); }
+            if (callback != null) { callback(target); }
             _queue.Enqueue(target);
         }
 
-        public void Reset(ICollection<T> targets)
+        public void Reset(ICollection<T> targets, Action<T> callback = null)
         {
             foreach (T target in targets)
             {
-                Reset(target);
+                Reset(target, callback);
             }
         }
     }
