@@ -102,6 +102,7 @@
     <Compile Include="Editor\GF47SnapSettings.cs" />
     <Compile Include="Editor\GF47SortArray.cs" />
     <Compile Include="Editor\Inspectors\BezierSplineComponentInspector.cs" />
+    <Compile Include="Editor\Inspectors\DecoratorEditor.cs" />
     <Compile Include="Editor\Inspectors\TweenBaseInspector.cs" />
     <Compile Include="Editor\SceneTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

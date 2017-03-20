@@ -101,7 +101,7 @@ namespace GF47RunTime.Tween
                         targets.Add(temp);
                     }
                 }
-                _iPercentTargets.Clear();
+                //_iPercentTargets.Clear();
             }
             else
             {
@@ -174,21 +174,16 @@ namespace GF47RunTime.Tween
 
         public void ResetAlgorithm(TweenEase ease, TweenLoop loop, TweenDirection dir)
         {
-            if (_ease == null)
-            {
-                _ease = new EaseAlgorithm(ease);
-            }
-            else _ease.EaseType = ease;
-            if (_loop == null)
-            {
-                _loop = new LoopAlgorithm(loop);
-            }
-            else _loop.LoopType = loop;
-            if (_direction == null)
-            {
-                _direction = new DirectionAlgorithm(dir);
-            }
-            else _direction.DirectionType = dir;
+            if (_ease == null) { _ease = new EaseAlgorithm(ease); }
+            else { _ease.EaseType = ease; }
+            easeType = ease;
+
+            if (_loop == null) { _loop = new LoopAlgorithm(loop); }
+            else { _loop.LoopType = loop; }
+            loopType = loop;
+
+            if (_direction == null) { _direction = new DirectionAlgorithm(dir); }
+            else { _direction.DirectionType = dir; }
         }
 
         public void Reset(TweenDirection direction, bool resetDelay)

@@ -97,12 +97,13 @@ namespace GF47RunTime.Tween
 
         public static CameraTranslater Begin(GameObject go, float duration, Vector3 from, Vector3 to, CameraTargetPositions targetPositions, TweenEase easeType, TweenLoop loopType,TranslateMode translateMode)
         {
-            TweenBase.Begin<Vector3, Translater>(duration, targetPositions.@from, targetPositions.to, go, targetPositions.target.gameObject);
+            // TweenBase tb2 = TweenBase.Begin<Vector3, Translater>(duration, targetPositions.@from, targetPositions.to, go, targetPositions.target.gameObject);
+            // tb2.ResetAlgorithm(easeType,loopType, TweenDirection.Forward);
             TweenBase tb = TweenBase.Begin<Vector3, CameraTranslater>(duration, from, to, go, go);
             tb.ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
             if (tb.targets != null && tb.targets.Count > 0)
             {
-                CameraTranslater ct = tb.targets[0] as CameraTranslater;
+                CameraTranslater ct = tb.targets.Find(i => i is CameraTranslater) as CameraTranslater;
                 if (ct != null)
                 {
                     ct.target = targetPositions.target;

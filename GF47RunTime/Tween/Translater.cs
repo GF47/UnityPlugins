@@ -26,6 +26,7 @@ namespace GF47RunTime.Tween
         public static Translater Begin(GameObject go, float duration, Vector3 from, Vector3 to, TweenEase easeType, TweenLoop loopType)
         {
             TweenBase tb = TweenBase.Begin<Vector3, Translater>(duration, from, to, go, go);
+            tb.ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
             if (tb.targets != null && tb.targets.Count > 0)
             {
                 return tb.targets[0] as Translater;

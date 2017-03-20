@@ -2,28 +2,52 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace GF47RunTime
+namespace GF47RunTime 
 {
     public static class Convert
     {
-        public static int StringToInt(string value)
+        public static bool ToBool(string value)
         {
-            return System.Convert.ToInt32(value);
+            bool r;
+            if (!bool.TryParse(value, out r))
+            {
+                return false;
+            }
+            return r;
+        }
+        public static int ToInt32(string value)
+        {
+            int r;
+            if (!int.TryParse(value, out r))
+            {
+                return 0;
+            }
+            return r;
         }
 
-        public static float StringToFloat(string value)
+        public static float ToFloat(string value)
         {
-            return System.Convert.ToSingle(value);
+            float r;
+            if (!float.TryParse(value, out r))
+            {
+                return 0f;
+            }
+            return r;
         }
 
-        public static double StringToDouble(string value)
+        public static double ToDouble(string value)
         {
-            return System.Convert.ToDouble(value);
+            double r;
+            if (!double.TryParse(value, out r))
+            {
+                return 0d;
+            }
+            return r;
         }
 
-        public static Vector2 StringToVector2(string value)
+        public static Vector2 ToVector2(string value)
         {
-            string[] array = StringInParentheses(value).Split(',');
+            string[] array = StringInBrackets(value).Split(',');
             float[] f = { 0f, 0f };
             for (int i = 0; i < array.Length && i < 2; i++)
             {
@@ -32,9 +56,9 @@ namespace GF47RunTime
             return new Vector2(f[0], f[1]);
         }
 
-        public static Vector3 StringToVector3(string value)
+        public static Vector3 ToVector3(string value)
         {
-            string[] array = StringInParentheses(value).Split(',');
+            string[] array = StringInBrackets(value).Split(',');
             float[] f = { 0f, 0f, 0f };
             for (int i = 0; i < array.Length && i < 3; i++)
             {
@@ -43,9 +67,9 @@ namespace GF47RunTime
             return new Vector3(f[0], f[1], f[2]);
         }
 
-        public static Vector4 StringToVector4(string value)
+        public static Vector4 ToVector4(string value)
         {
-            string[] array = StringInParentheses(value).Split(',');
+            string[] array = StringInBrackets(value).Split(',');
             float[] f = { 0f, 0f, 0f, 0f };
             for (int i = 0; i < array.Length && i < 4; i++)
             {
@@ -54,8 +78,41 @@ namespace GF47RunTime
             return new Vector4(f[0], f[1], f[2], f[3]);
         }
 
-        public static byte[] StructToBytes(object structObj, int size)
+        public static Color ToColor(string value)
         {
+            string[] array = StringInBrackets(value).Split(',');
+            float[] f = { 0f, 0f, 0f, 1f };
+            for (int i = 0; i < array.Length && i < 4; i++)
+            {
+                float.TryParse(array[i], out f[i]);
+            }
+            return new Color(f[0], f[1], f[2], f[3]);
+        }
+
+        public static Color32 ToColor32(string value)
+        {
+            string[] array = StringInBrackets(value).Split(',');
+            byte[] c = { 0, 0, 0, 255 };
+            for (int i = 0; i < array.Length && i < 4; i++)
+            {
+                byte.TryParse(array[i], out c[i]);
+            }
+            return new Color32(c[0], c[1], c[2], c[3]);
+        }
+        public static Rect ToRect(string value)
+        {
+            string[] array = StringInBrackets(value).Split(',');
+            float[] c = { 0f, 0f, 0f, 0f };
+            for (int i = 0; i < array.Length && i < 4; i++)
+            {
+                float.TryParse(array[i], out c[i]);
+            }
+            return new Rect(c[0], c[1], c[2], c[3]);
+        }
+
+        public static byte[] StructToBytes(object structObj)
+        {
+            int size = Marshal.SizeOf(structObj);
             byte[] bytes = new byte[size];
             IntPtr structPtr = Marshal.AllocHGlobal(size);
             Marshal.StructureToPtr(structObj, structPtr, false);
@@ -76,28 +133,23 @@ namespace GF47RunTime
             return obj;
         }
 
-        public static Color StringToColor(string value)
+        public static string StringInBrackets(string s, char leftBracket = '(', char rightBracket = ')')
         {
-            string[] array = StringInParentheses(value).Split(',');
-            float[] f = { 0f, 0f, 0f, 255f };
-            for (int i = 0; i < array.Length && i < 4; i++)
-            {
-                float.TryParse(array[i], out f[i]);
-            }
-            return new Color(f[0] / 255f, f[1] / 255f, f[2] / 255f, f[3] / 255f);
-        }
+            int left = s.IndexOf(leftBracket) + 1;
+            int right = s.LastIndexOf(rightBracket);
+            right = right > -1 ? right : s.Length;
+            return s.Substring(left, right - left);
 
-        private static string StringInParentheses(string s)
-        {
-            string tmp = s.Substring(s.IndexOf("(", StringComparison.Ordinal) + 1);
-            int last = tmp.LastIndexOf(")", StringComparison.Ordinal);
-            last = last > -1 ? last : tmp.Length;
-            tmp = tmp.Substring(0, last);
-            return tmp;
+            // string tmp = s.Substring(s.IndexOf("(", StringComparison.Ordinal) + 1);
+            // int last = tmp.LastIndexOf(")", StringComparison.Ordinal);
+            // last = last > -1 ? last : tmp.Length;
+            // tmp = tmp.Substring(0, last);
+            // return tmp;
         }
 
         public static T[] StringToArray<T>(string s, char splitChar = ',')
         {
+            if (string.IsNullOrEmpty(s)) { return null; }
             string[] strArray = s.Split(splitChar);
             T[] array = new T[strArray.Length];
             string type = typeof(T).Name;
@@ -138,9 +190,15 @@ namespace GF47RunTime
         private const string ColorType0 = "color";
         private const string ColorType1 = "Color";
         private const string ColorType2 = "UnityEngine.Color";
+        private const string Color32Type0 = "color32";
+        private const string Color32Type1 = "Color32";
+        private const string Color32Type2 = "UnityEngine.Color32";
+        private const string RectType0 = "rect";
+        private const string RectType1 = "Rect";
+        private const string RectType2 = "UnityEngine.Rect";
         public static object ConvertTo(string type, string value)
         {
-            System.Object result = null;
+            object result = null;
             switch (type)
             {
                 case StringType0:
@@ -171,22 +229,32 @@ namespace GF47RunTime
                 case Vector2Type0:
                 case Vector2Type1:
                 case Vector2Type2:
-                    result = StringToVector2(value);
+                    result = ToVector2(value);
                     break;
                 case Vector3Type0:
                 case Vector3Type1:
                 case Vector3Type2:
-                    result = StringToVector3(value);
+                    result = ToVector3(value);
                     break;
                 case Vector4Type0:
                 case Vector4Type1:
                 case Vector4Type2:
-                    result = StringToVector4(value);
+                    result = ToVector4(value);
                     break;
                 case ColorType0:
                 case ColorType1:
                 case ColorType2:
-                    result = StringToColor(value);
+                    result = ToColor(value);
+                    break;
+                case Color32Type0:
+                case Color32Type1:
+                case Color32Type2:
+                    result = ToColor32(value);
+                    break;
+                case RectType0:
+                case RectType1:
+                case RectType2:
+                    result = ToRect(value);
                     break;
             }
             return result;
