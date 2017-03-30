@@ -83,7 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Editor\CreateScriptableObjectAssets.cs" />
-    <Compile Include="Editor\EnumFlagsAttribute.cs" />
+    <Compile Include="Editor\EnumFlagsAttribute.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Editor\GF47Configuration.cs" />
     <Compile Include="Editor\GF47CopyComponents.cs" />
     <Compile Include="Editor\GF47CreateAssetBundles.cs" />
     <Compile Include="Editor\GF47DeleteComponentHidden.cs" />

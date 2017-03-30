@@ -96,7 +96,6 @@
     <Compile Include="BlackBoard.cs" />
     <Compile Include="Data\Deserializer.cs" />
     <Compile Include="Data\Serializer.cs" />
-    <Compile Include="Pattern\Composite\IComponent.cs" />
     <Compile Include="~ExtendComponents\CameraExtend.cs" />
     <Compile Include="~ExtendComponents\GameObjectExtend.cs" />
     <Compile Include="~ExtendValueTypes\Int32Extend.cs" />

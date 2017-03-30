@@ -155,7 +155,7 @@ namespace GF47RunTime.Tween
 
         protected void OnFinishedBehaviour()
         {
-            if (OnFinished != null) OnFinished(this);
+            OnFinished?.Invoke(this);
             if (eventReceiver != null && !string.IsNullOrEmpty(callWhenFinished))
             {
                 eventReceiver.SendMessage(callWhenFinished, this, SendMessageOptions.DontRequireReceiver);
@@ -167,7 +167,7 @@ namespace GF47RunTime.Tween
             if (Math.Abs(_duration - duration) > 0.0001f)
             {
                 _duration = duration;
-                _amountPerDelta = (_duration > 0 ? (1.0f / _duration) : 1000f);
+                _amountPerDelta = _duration > 0 ? (1.0f / _duration) : 1000f;
             }
             return _amountPerDelta;
         }
