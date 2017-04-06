@@ -6,6 +6,7 @@
  * @Edit            : none
  **************************************************************/
 
+using GF47RunTime.Configuration;
 using GF47RunTime.Data;
 using System;
 using System.Collections.Generic;
@@ -32,11 +33,6 @@ namespace GF47Editor.Editor
                 this.value = value;
             }
         }
-        private const string ROOTNODE = "Config";
-        private const string ITEMNODE = "add";
-        private const string NAMEATTRIBUTE = "name";
-        private const string TYPEATTRIBUTE = "type";
-        private const string VALUEATTRIBUTE = "value";
         // private static Color DEFAULTCOLOR = GUI.backgroundColor;
         // private static Color CHANGEDCOLOR = Color.yellow;
 
@@ -214,14 +210,14 @@ namespace GF47Editor.Editor
                         w.Formatting = Formatting.Indented;
                         w.WriteStartDocument();
                         {
-                            w.WriteStartElement(ROOTNODE);
+                            w.WriteStartElement(ConstValues.ROOTNODE);
                             for (int i = 0; i < _config.Count; i++)
                             {
-                                w.WriteStartElement(ITEMNODE);
+                                w.WriteStartElement(ConstValues.NODE);
                                 {
-                                    w.WriteAttributeString(NAMEATTRIBUTE, _config[i].name);
-                                    w.WriteAttributeString(TYPEATTRIBUTE, _config[i].type.ToString());
-                                    w.WriteAttributeString(VALUEATTRIBUTE, Convert.FormatToString(_config[i].type, _config[i].value));
+                                    w.WriteAttributeString(ConstValues.NAME, _config[i].name);
+                                    w.WriteAttributeString(ConstValues.TYPE, _config[i].type.ToString());
+                                    w.WriteAttributeString(ConstValues.VALUE, Convert.FormatToString(_config[i].type, _config[i].value));
                                 }
                                 w.WriteEndElement();
                             }
@@ -256,7 +252,7 @@ namespace GF47Editor.Editor
                             w.Formatting = Formatting.Indented;
                             w.WriteStartDocument();
                             {
-                                w.WriteStartElement(ROOTNODE);
+                                w.WriteStartElement(ConstValues.ROOTNODE);
                                 w.WriteEndElement();
                             }
                             w.WriteEndDocument();
@@ -283,20 +279,20 @@ namespace GF47Editor.Editor
                 doc.Load(_configPath);
                 XmlNode rn = doc.LastChild;
 
-                XmlNodeList list = rn.SelectNodes(ITEMNODE);
+                XmlNodeList list = rn.SelectNodes(ConstValues.NODE);
                 if (list != null)
                 {
                     for (int i = 0; i < list.Count; i++)
                     {
                         string nameStr = string.Empty;
-                        if (!list[i].HasAttribute("name", ref nameStr)) { continue; }
+                        if (!list[i].HasAttribute(ConstValues.NAME, ref nameStr)) { continue; }
 
                         string typeStr = string.Empty;
-                        if (!list[i].HasAttribute("type", ref typeStr)) { continue; }
+                        if (!list[i].HasAttribute(ConstValues.TYPE, ref typeStr)) { continue; }
                         Convert.UnityStructs type = Convert.ToUnityStructsEnum(typeStr);
 
                         string valueStr = string.Empty;
-                        if (!list[i].HasAttribute("value", ref valueStr)) { continue; }
+                        if (!list[i].HasAttribute(ConstValues.VALUE, ref valueStr)) { continue; }
                         object value = Convert.ConvertTo(typeStr, valueStr);
 
                         _config.Add(new Item(nameStr, type, value));
