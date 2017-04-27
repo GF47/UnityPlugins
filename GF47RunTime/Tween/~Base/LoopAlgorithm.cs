@@ -14,28 +14,41 @@ namespace GF47RunTime.Tween
         public LoopAlgorithm(TweenLoop loopType)
         {
             _type = (int)loopType;
-            _direction = 1;
+            _direction = true;
         }
         public Factor Result(float percent)
         {
+            _factor = percent;
+
             switch (_type)
             {
                 case 0: // Once
-                    _factor = percent;
-                    return new Factor(_factor.Clamp(0f, 1f), _factor >= 1.0f);
+                    return new Factor(_factor.Clamp(0.0f, 1.0f), percent >= 1.0f);
                 case 1: // Loop
-                    _factor = percent;
                     return new Factor(_factor % 1.0f, false);
                 case 2: // PingPong
-                    if (percent > 1.0f)
+                    if (_factor > 1.0f)
                     {
-                        _direction *= -1;
-                        percent %= 1.0f;
+                        _direction = !_direction;
+                        _factor %= 1.0f;
                     }
-                    _factor = _direction > 0f ? percent : 1f - percent;
+                    _factor = _direction ? _factor : 1.0f - _factor;
                     return new Factor(_factor, false);
+                case 3: // PingPongOnce
+                    if (_factor > 1.0f)
+                    {
+                        _direction = true;
+                        _factor %= 1.0f;
+                    }
+                    else if (_factor > 0.5f)
+                    {
+                        _direction = false;
+                        _factor %= 0.5f;
+                    }
+                    _factor = _direction ? 2.0f * _factor : 1.0f - 2.0f * _factor;
+                    return new Factor(_factor, percent >= 1.0f);
                 default:
-                    return new Factor(_factor, _factor >= 1.0f);
+                    return new Factor(_factor.Clamp(0.0f, 1.0f), percent >= 1.0f); // the same as Once
             }
         }
         public TweenLoop LoopType
@@ -45,7 +58,7 @@ namespace GF47RunTime.Tween
         }
 
         private int _type;
-        private int _direction;
+        private bool _direction;
         private float _factor;
     }
 }
