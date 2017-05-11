@@ -98,6 +98,7 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Data\Deserializer.cs" />
     <Compile Include="Data\Serializer.cs" />
+    <Compile Include="GFMath.cs" />
     <Compile Include="~ExtendComponents\CameraExtend.cs" />
     <Compile Include="~ExtendComponents\GameObjectExtend.cs" />
     <Compile Include="~ExtendValueTypes\Int32Extend.cs" />

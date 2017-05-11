@@ -48,5 +48,26 @@ namespace UnitTestProject
             go.AddChild<BoxCollider>();
             go.FindInParent<BoxCollider>();
         }
+
+        [TestMethod]
+        public void Float求余数()
+        {
+            float a = 26.24242f;
+            float b = 13f;
+
+            Assert.AreEqual(0.24242f, a % b);
+            Assert.AreEqual(0.24242f, GFMath.Mod(a, b));
+            Assert.AreEqual(0.24242f, GFMath.Mod1(a));
+        }
+
+        [TestMethod]
+        public void Double求余数()
+        {
+            double a = 26.24242d;
+            double b = 13d;
+            Assert.AreEqual(0.24242d, a % b);
+            Assert.AreEqual(0.24242d, GFMath.Mod(a, b));
+            Assert.AreEqual(0.24242d, GFMath.Mod1(a));
+        }
     }
 }

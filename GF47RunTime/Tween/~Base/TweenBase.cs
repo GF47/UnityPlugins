@@ -131,7 +131,7 @@ namespace GF47RunTime.Tween
             _result.factor = _direction.Result(_result.factor);
             _result.factor = _ease.Result(_result.factor);
 
-            _factor %= 1.0f;
+            _factor -= Mathf.Floor(_factor);
 
             Sample(_result.factor, _result.isFinished);
         }

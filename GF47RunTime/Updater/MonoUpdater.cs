@@ -24,7 +24,9 @@ namespace GF47RunTime.Updater
                     if (_isApplicationRunning)
                     {
                         GameObject instance = new GameObject("__MonoUpdater");
+                        instance.hideFlags = HideFlags.HideInHierarchy;
                         DontDestroyOnLoad(instance);
+
                         _instance = instance.AddComponent<MonoUpdater>();
                     }
                 }
