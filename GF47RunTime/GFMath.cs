@@ -23,7 +23,7 @@ namespace GF47RunTime
         /// <summary>
         /// 取余数
         /// </summary>
-        public static float Mod(float a, float b) { return a - (float)Math.Floor(a / b) * b; }
+        public static float Mod(float a, float b) { return (float)(a - Math.Floor(a / b) * b); }
         /// <summary>
         /// 取余数
         /// </summary>
@@ -32,7 +32,7 @@ namespace GF47RunTime
         /// <summary>
         /// 取小数值
         /// </summary>
-        public static float Mod1(float a) { return a - (float)Math.Floor(a); }
+        public static float Mod1(float a) { return (float)(a - Math.Floor(a)); }
         /// <summary>
         /// 取小数值
         /// </summary>
