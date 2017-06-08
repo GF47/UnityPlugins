@@ -17,7 +17,8 @@ namespace GF47RunTime.Tween
     {
         Once = 0,
         Loop,
-        PingPong
+        PingPong,
+        PingPongOnce
     }
     public enum TweenDirection
     {

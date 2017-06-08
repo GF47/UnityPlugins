@@ -31,6 +31,32 @@
         }
         private float _realDelta;
 
+        public float RealLateTime
+        {
+            get
+            {
+                if (Application.isPlaying)
+                {
+                    return _realLateTime;
+                }
+                return 0f;
+            }
+        }
+        private float _realLateTime;
+
+        public float RealLateDeltaTime
+        {
+            get
+            {
+                if (Application.isPlaying)
+                {
+                    return _realLateDeltaTime;
+                }
+                return 0f;
+            }
+        }
+        private float _realLateDeltaTime;
+
         public float CustomTime
         {
             get { return _customTime; }
@@ -133,6 +159,10 @@
 
         public void LateUpdate()
         {
+            float rt = Time.realtimeSinceStartup;
+            _realLateDeltaTime = rt - _realLateTime;
+            _realLateTime = rt;
+
             for (int i = 0; i < _perAfterFrameList.Count; i++)
             {
                 _perAfterFrameList[i].Update(Time.deltaTime);

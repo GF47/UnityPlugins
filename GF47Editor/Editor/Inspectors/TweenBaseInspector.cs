@@ -40,6 +40,7 @@ namespace GF47Editor.Editor.Inspectors
             _tweenBase.tweenGroup = EditorGUILayout.IntField("TweenGroup", _tweenBase.tweenGroup);
             _tweenBase.eventReceiver = (GameObject)EditorGUILayout.ObjectField("EventReceiver", _tweenBase.eventReceiver, typeof(GameObject), true);
             _tweenBase.callWhenFinished = EditorGUILayout.TextField("CallWhenFinished", _tweenBase.callWhenFinished);
+            _tweenBase.isLateUpdate = EditorGUILayout.Toggle("isLateUpdate", _tweenBase.isLateUpdate);
 
             _isFolded = EditorGUILayout.Foldout(_isFolded, "Targets");
             if (_isFolded)

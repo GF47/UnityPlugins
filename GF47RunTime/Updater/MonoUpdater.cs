@@ -46,6 +46,16 @@ namespace GF47RunTime.Updater
             get { return Instance.Target.RealDeltaTime; }
         }
 
+        public static float RealLateTime
+        {
+            get { return Instance.Target.RealLateTime; }
+        }
+
+        public static float RealLateDelta
+        {
+            get { return Instance.Target.RealLateDeltaTime; }
+        }
+
         public static float CustomTime
         {
             get { return Instance.Target.CustomTime; }

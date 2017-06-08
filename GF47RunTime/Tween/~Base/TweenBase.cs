@@ -52,6 +52,11 @@ namespace GF47RunTime.Tween
         public int tweenGroup = 1;
 
         /// <summary>
+        /// 是否是在LateUpdate中更新
+        /// </summary>
+        public bool isLateUpdate = false;
+
+        /// <summary>
         /// 完成一个缓动行为后的回调
         /// </summary>
         public Action<TweenBase> OnFinished;
@@ -111,14 +116,33 @@ namespace GF47RunTime.Tween
         void Start()
         {
             ResetAlgorithm(easeType, loopType, TweenDirection.Forward);
-            Update();
-        }
 
+            Update();
+            LateUpdate();
+        }
         void Update()
         {
-            float delta = useRealTime ? Updater.MonoUpdater.RealDelta : Time.deltaTime;
-            float time = useRealTime ? Updater.MonoUpdater.RealTime : Time.time;
+            if (!isLateUpdate)
+            {
+                float delta = useRealTime ? Updater.MonoUpdater.RealDelta : Time.deltaTime;
+                float time = useRealTime ? Updater.MonoUpdater.RealTime : Time.time;
 
+                Update_(delta, time);
+            }
+        }
+
+        void LateUpdate()
+        {
+            if (isLateUpdate)
+            {
+                float delta = useRealTime ? Updater.MonoUpdater.RealLateDelta : Time.deltaTime;
+                float time = useRealTime ? Updater.MonoUpdater.RealLateTime : Time.time;
+                Update_(delta, time);
+            }
+        }
+
+        private void Update_(float delta, float time)
+        {
             if (!_started)
             {
                 _started = true;

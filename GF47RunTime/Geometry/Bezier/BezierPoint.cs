@@ -20,16 +20,17 @@ namespace GF47RunTime.Geometry.Bezier
 
         public Vector3 Point
         {
-            get { return _p; }
+            get { return _point; }
             set
             {
-                Vector3 offset = value - _p;
-                _p = value;
+                Vector3 offset = value - _point;
+                _point = value;
                 _handleL += offset;
                 _handleR += offset;
             }
         }
-        private Vector3 _p;
+        [SerializeField]
+        private Vector3 _point;
         public Vector3 HandleL
         {
             get { return _handleL; }
@@ -46,19 +47,20 @@ namespace GF47RunTime.Geometry.Bezier
                         break;
                     case PointType.Bezier:
                     default:
-                        float lengthL = Vector3.Distance(_handleL, _p);
-                        float lengthR = Vector3.Distance(_handleR, _p);
+                        float lengthL = Vector3.Distance(_handleL, _point);
+                        float lengthR = Vector3.Distance(_handleR, _point);
 
                         _handleL = value;
-                        Vector3 v = _handleL - _p;
+                        Vector3 v = _handleL - _point;
                         if (lengthL > 0f)
                         {
-                            _handleR = _p - (lengthR / lengthL) * v;
+                            _handleR = _point - (lengthR / lengthL) * v;
                         }
                         break;
                 }
             }
         }
+        [SerializeField]
         private Vector3 _handleL;
         public Vector3 HandleR
         {
@@ -76,19 +78,20 @@ namespace GF47RunTime.Geometry.Bezier
                         break;
                     case PointType.Bezier:
                     default:
-                        float lengthL = Vector3.Distance(_handleL, _p);
-                        float lengthR = Vector3.Distance(_handleR, _p);
+                        float lengthL = Vector3.Distance(_handleL, _point);
+                        float lengthR = Vector3.Distance(_handleR, _point);
 
                         _handleR = value;
-                        Vector3 v = _handleR - _p;
+                        Vector3 v = _handleR - _point;
                         if (lengthR > 0f)
                         {
-                            _handleL = _p - (lengthL / lengthR) * v;
+                            _handleL = _point - (lengthL / lengthR) * v;
                         }
                         break;
                 }
             }
         }
+        [SerializeField]
         private Vector3 _handleR;
 
         public BezierPoint() : this(Vector3.zero, 1f, PointType.Bezier) { }
@@ -96,9 +99,9 @@ namespace GF47RunTime.Geometry.Bezier
         public BezierPoint(Vector3 position, float handleLength, PointType type)
         {
             this.type = type;
-            _p = position;
-            _handleL = _p + handleLength * Vector3.left;
-            _handleR = _p + handleLength * Vector3.right;
+            _point = position;
+            _handleL = _point + handleLength * Vector3.left;
+            _handleR = _point + handleLength * Vector3.right;
         }
     }
 }

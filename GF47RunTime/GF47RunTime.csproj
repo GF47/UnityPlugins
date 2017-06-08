@@ -57,12 +57,15 @@
   <ItemGroup>
     <Compile Include="ActionSystem\ActionContainerList.cs" />
     <Compile Include="ActionSystem\MutualExclusionGroup.cs" />
+    <Compile Include="Attributes\InheritFromAttribute.cs" />
     <Compile Include="BlackBoard.cs" />
     <Compile Include="Components\CameraUtility\BirdsEyeViewCamera.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Data\Deserializer.cs" />
     <Compile Include="Data\Serializer.cs" />
     <Compile Include="GFMath.cs" />
+    <Compile Include="Tween\TweenBezierSplinePath.cs" />
+    <Compile Include="Tween\~Base\TweenCurve.cs" />
     <Compile Include="~Debug\GFDebug.cs" />
     <Compile Include="~ExtendComponents\CameraExtend.cs" />
     <Compile Include="~ExtendComponents\GameObjectExtend.cs" />
@@ -73,7 +76,6 @@
     <Compile Include="Geometry\Bezier\BezierCurve.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\BezierSplineComponent.cs" />
     <Compile Include="Components\CameraUtility\CameraController.cs" />
     <Compile Include="Components\CameraUtility\CameraTargetController.cs" />
     <Compile Include="ActionSystem\ActionTrigger.cs" />

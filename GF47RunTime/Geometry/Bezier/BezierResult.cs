@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GF47RunTime.Geometry.Bezier
 {
     [Serializable]
-    public class BezierResult
+    public struct BezierResult
     {
         public readonly Vector3 position;
         public readonly Vector3 velocity;

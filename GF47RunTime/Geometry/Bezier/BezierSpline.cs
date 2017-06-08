@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace GF47RunTime.Geometry.Bezier 
 {
+    [CreateAssetMenu]
     [Serializable]
-    public class BezierSpline
+    public class BezierSpline : ScriptableObject
     {
         public List<BezierPoint> points;
         public void Add(BezierPoint item)

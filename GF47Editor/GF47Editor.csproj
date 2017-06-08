@@ -47,9 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Editor\CreateScriptableObjectAssets.cs" />
-    <Compile Include="Editor\EnumFlagsAttribute.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Editor\Inspectors\EnumFlagsAttributeDrawer.cs" />
     <Compile Include="Editor\GF47Configuration.cs" />
     <Compile Include="Editor\GF47CopyComponents.cs" />
     <Compile Include="Editor\GF47CreateAssetBundles.cs" />
@@ -68,8 +66,9 @@
     <Compile Include="Editor\GF47SkyBoxGenerator.cs" />
     <Compile Include="Editor\GF47SnapSettings.cs" />
     <Compile Include="Editor\GF47SortArray.cs" />
-    <Compile Include="Editor\Inspectors\BezierSplineComponentInspector.cs" />
+    <Compile Include="Editor\Inspectors\BezierSplineInspector.cs" />
     <Compile Include="Editor\Inspectors\DecoratorEditor.cs" />
+    <Compile Include="Editor\Inspectors\InheritFromAttributeDrawer.cs" />
     <Compile Include="Editor\Inspectors\TweenBaseInspector.cs" />
     <Compile Include="Editor\SceneTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
