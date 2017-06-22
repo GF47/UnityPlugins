@@ -24,17 +24,17 @@ namespace GF47Editor.Editor.Inspectors
         //     float.Epsilon;
         //     //*/
 
-        private const int DRAW_POINTS_COUNT = 32;
+        // private const int DRAW_POINTS_COUNT = 32;
 
         private const float HANDLE_SIZE = 0.04f;
         private const float PICK_SIZE = 0.06f;
 
-        private bool _smooth;
+        // private bool _smooth;
 
         private int _selectedIndex = -1;
 
         private BezierSpline _target;
-        private readonly Vector3[] _points = new Vector3[DRAW_POINTS_COUNT + 1];
+        // private readonly Vector3[] _points = new Vector3[DRAW_POINTS_COUNT + 1];
 
         // private float _minMaxThreshold = 1f;
 
@@ -47,6 +47,7 @@ namespace GF47Editor.Editor.Inspectors
 
         void OnDisable()
         {
+            AssetDatabase.SaveAssets();
             SceneView.onSceneGUIDelegate -= Draw;
         }
 
@@ -71,14 +72,14 @@ namespace GF47Editor.Editor.Inspectors
             int insertId = -1;
             int removeId = -1;
             GUILayout.Space(10f);
-            bool tmpSmooth = _smooth;
-            tmpSmooth = GUILayout.Toggle(tmpSmooth, tmpSmooth ? "Smooth" : "PolyLine", EditorStyles.toggle);
-            if (tmpSmooth != _smooth)
-            {
-                _smooth = tmpSmooth;
-                RepaintSceneView();
-            }
-            GUILayout.Space(10f);
+            // bool tmpSmooth = _smooth;
+            // tmpSmooth = GUILayout.Toggle(tmpSmooth, tmpSmooth ? "Smooth" : "PolyLine", EditorStyles.toggle);
+            // if (tmpSmooth != _smooth)
+            // {
+            //     _smooth = tmpSmooth;
+            //     RepaintSceneView();
+            // }
+            // GUILayout.Space(10f);
             Color bg = GUI.backgroundColor;
             for (int i = 0; i < _target.Count; i++)
             {
@@ -88,6 +89,7 @@ namespace GF47Editor.Editor.Inspectors
                 if (point == null)
                 {
                     _target[i] = new BezierPoint();
+                    EditorUtility.SetDirty(_target);
                     point = _target[i];
                 }
                 Vector3 position = point.Point;
@@ -98,10 +100,21 @@ namespace GF47Editor.Editor.Inspectors
                 }
                 point.type = (BezierPoint.PointType)EditorGUILayout.EnumPopup("Type", point.type);
                 EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Select",EditorStyles.miniButtonLeft))
+                if (_selectedIndex == i)
                 {
-                    _selectedIndex = i;
-                    RepaintSceneView();
+                    if (GUILayout.Button("UnSelect", EditorStyles.miniButtonLeft))
+                    {
+                        _selectedIndex = -1;
+                        RepaintSceneView();
+                    }
+                }
+                else
+                {
+                    if (GUILayout.Button("Select", EditorStyles.miniButtonLeft))
+                    {
+                        _selectedIndex = i;
+                        RepaintSceneView();
+                    }
                 }
                 if (GUILayout.Button("Insert", EditorStyles.miniButtonMid))
                 {
@@ -120,22 +133,32 @@ namespace GF47Editor.Editor.Inspectors
             {
                 float percent =(insertId - 0.5f) / (_target.Count - 1);
                 BezierResult result = _target.GetResult(percent);
-                _target.Insert(insertId, new BezierPoint(result.position, 1f, BezierPoint.PointType.BezierCorner));
+                _target.Insert(insertId, new BezierPoint(result.position, 1f, BezierPoint.PointType.Bezier));
+                EditorUtility.SetDirty(_target);
                 RepaintSceneView();
             }
             if (removeId > -1)
             {
                 _target.RemoveAt(removeId);
+                EditorUtility.SetDirty(_target);
                 RepaintSceneView();
             }
 
             // _minMaxThreshold = EditorGUILayout.FloatField("缩放", _minMaxThreshold);
 
-            if (GUILayout.Button("Add" , EditorStyles.miniButton))
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Add" , EditorStyles.miniButtonLeft))
             {
                 _target.Add(new BezierPoint());
+                EditorUtility.SetDirty(_target);
                 RepaintSceneView();
             }
+            if (GUILayout.Button("Save", EditorStyles.miniButtonRight))
+            {
+                // AssetDatabase.SaveAssets();
+                AssetDatabase.SaveAssets();
+            }
+            EditorGUILayout.EndHorizontal();
 
             // 粒子
             // if (GUILayout.Button("Apply", EditorStyles.miniButton))
@@ -149,24 +172,25 @@ namespace GF47Editor.Editor.Inspectors
             for (int i = 0; i < _target.Count - 1; i++)
             {
                 DrawPoint(i);
-                if (_smooth)
-                {
-                    Handles.DrawBezier(_target[i].Point, _target[i + 1].Point, _target[i].HandleR, _target[i + 1].HandleL, Color.green, null, 2f);
-                }
+                Handles.DrawBezier(_target[i].Point, _target[i + 1].Point, _target[i].HandleR, _target[i + 1].HandleL, Color.green, null, 2f);
+                // if (_smooth)
+                // {
+                //     Handles.DrawBezier(_target[i].Point, _target[i + 1].Point, _target[i].HandleR, _target[i + 1].HandleL, Color.green, null, 2f);
+                // }
             }
             DrawPoint(_target.Count - 1);
-            if (!_smooth)
-            {
-                float step = 1f / DRAW_POINTS_COUNT;
-                float total = 0f;
-                for (int i = 0; i < _points.Length; i++, total += step)
-                {
-                    BezierResult result = _target.GetResult(total);
-                    _points[i] = result.position;
-                }
-                Handles.color = Color.green;
-                Handles.DrawPolyLine(_points);
-            }
+            // if (!_smooth)
+            // {
+            //     float step = 1f / DRAW_POINTS_COUNT;
+            //     float total = 0f;
+            //     for (int i = 0; i < _points.Length; i++, total += step)
+            //     {
+            //         BezierResult result = _target.GetResult(total);
+            //         _points[i] = result.position;
+            //     }
+            //     Handles.color = Color.green;
+            //     Handles.DrawPolyLine(_points);
+            // }
         }
 
         // 画点
@@ -207,14 +231,17 @@ namespace GF47Editor.Editor.Inspectors
                 if (p != point.Point)
                 {
                     point.Point = p;
+                    EditorUtility.SetDirty(_target);
                 }
                 else if (pl != point.HandleL)
                 {
                     point.HandleL = pl;
+                    EditorUtility.SetDirty(_target);
                 }
                 else if (pr != point.HandleR)
                 {
                     point.HandleR = pr;
+                    EditorUtility.SetDirty(_target);
                 }
             }
             Handles.DrawLine(point.Point, point.HandleL);

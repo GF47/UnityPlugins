@@ -258,11 +258,7 @@ namespace GF47RunTime.Tween
 
         public static TweenBase Begin(GameObject go, float duration)
         {
-            TweenBase temp = go.GetComponent<TweenBase>();
-            if (temp == null)
-            {
-                temp = go.AddComponent<TweenBase>();
-            }
+            TweenBase temp = go.GetComponent<TweenBase>() ?? go.AddComponent<TweenBase>();
             temp._started = false;
             temp.duration = duration;
             temp._factor = 0.0f;
@@ -282,11 +278,7 @@ namespace GF47RunTime.Tween
             {
                 for (int i = 0; i < targets.Length; i++)
                 {
-                    T2 t = targets[i].GetComponent<T2>();
-                    if (t == null)
-                    {
-                        t = targets[i].AddComponent<T2>();
-                    }
+                    T2 t = targets[i].GetComponent<T2>() ?? targets[i].AddComponent<T2>();
 
                     t.from = from;
                     t.to = to;

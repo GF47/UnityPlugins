@@ -53,6 +53,11 @@ namespace GF47RunTime.Configuration
 
         public static T Get<T>(string name, T defaultValue)
         {
+            if (_config == null)
+            {
+                Debug.LogWarningFormat("{0} is not found, use default value {1}", name, defaultValue);
+                return defaultValue;
+            }
             if (_config.ContainsKey(name))
             {
                 return (T)_config[name];
