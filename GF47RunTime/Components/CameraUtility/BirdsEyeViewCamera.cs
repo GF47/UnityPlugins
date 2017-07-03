@@ -19,6 +19,8 @@ namespace GF47RunTime.Components.CameraUtility
         public float minDistance = 10f; // 最小距离
         public float maxDistance = 200f; // 最大距离
         public float wheelSpeed = 20f; // 滚轮速度
+        public float minOrthographicSize = 0.01f;
+        public float maxOrthographicSize = 50f;
         [Range(0, 2)]
         public int rotateButton = 1; // 旋转的按钮
         public float rotateSpeedX = 1f; // x轴旋转的速度
@@ -40,6 +42,8 @@ namespace GF47RunTime.Components.CameraUtility
         private float _velocityDistance;
         private Vector3 _smooth;
         private Vector3 _velocity;
+
+        private float _lastOrthographicRatio;
 
         private Camera _camera;
         private Vector3 _lastMousePos2;
@@ -74,21 +78,7 @@ namespace GF47RunTime.Components.CameraUtility
         {
             _camera = GetComponent<Camera>();
 
-            if (target != null)
-            {
-                _distance = Vector3.Distance(transform.position, target.position);
-                _smoothDistance = _distance;
-                transform.position = transform.rotation * new Vector3(0, 0, -_smoothDistance) + target.position;
-            }
-            _lastMousePos = Input.mousePosition;
-            _saveMousePos= new Vector3(transform.eulerAngles.y, transform.eulerAngles.x, 0f);
-            _saveMousePos.y = Mathf.Clamp(_saveMousePos.y, rotateLimitMinY, rotateLimitMaxY);
-            _smooth = _saveMousePos;
-
-            _lastMousePos2.x = Input.mousePosition.x * moveSpeedX;
-            _lastMousePos2.y = Input.mousePosition.y * moveSpeedY;
-            _lastMousePos2.z = 10f;
-            _saveMousePos2 = _lastMousePos2;
+            Reset();
         }
 
         void LateUpdate()
@@ -130,15 +120,48 @@ namespace GF47RunTime.Components.CameraUtility
                 _lastMousePos = Input.mousePosition;
                 _saveMousePos.y = Mathf.Clamp(_saveMousePos.y, rotateLimitMinY, rotateLimitMaxY);
             }
-            _smooth = Vector3.SmoothDamp(_smooth, _saveMousePos, ref _velocity, smoothTime, smoothDampMaxSpeed, Time.fixedDeltaTime);
+            _smooth = Vector3.SmoothDamp(_smooth, _saveMousePos, ref _velocity, smoothTime, smoothDampMaxSpeed, Time.deltaTime);
             transform.rotation = Quaternion.Euler(_smooth.y, _smooth.x, 0);
             if (target != null)
             {
-                _distance -= Input.GetAxis("Mouse ScrollWheel") * wheelSpeed;
+                float scrollWheelDelta = Input.GetAxis("Mouse ScrollWheel") * wheelSpeed;
+                if (_camera.orthographic)
+                {
+                    _lastOrthographicRatio -= scrollWheelDelta;
+
+                    _camera.orthographicSize = Mathf.Pow(1.25f, _lastOrthographicRatio);
+                }
+                else
+                {
+                    _distance -= scrollWheelDelta;
+                }
                 _distance = Mathf.Clamp(_distance, minDistance, maxDistance);
-                _smoothDistance = Mathf.SmoothDamp(_smoothDistance, _distance, ref _velocityDistance, smoothTime, smoothDampMaxSpeed, Time.fixedDeltaTime);
+
+                _smoothDistance = Mathf.SmoothDamp(_smoothDistance, _distance, ref _velocityDistance, smoothTime, smoothDampMaxSpeed, Time.deltaTime);
+                transform.position = transform.rotation * new Vector3(0, 0, -_smoothDistance) + target.position;
+
+            }
+        }
+
+        public void Reset()
+        {
+            if (target != null)
+            {
+                _distance = Vector3.Distance(transform.position, target.position);
+                _smoothDistance = _distance;
                 transform.position = transform.rotation * new Vector3(0, 0, -_smoothDistance) + target.position;
             }
+            _lastMousePos = Input.mousePosition;
+            _saveMousePos = new Vector3(transform.eulerAngles.y, transform.eulerAngles.x, 0f);
+            _saveMousePos.y = Mathf.Clamp(_saveMousePos.y, rotateLimitMinY, rotateLimitMaxY);
+            _smooth = _saveMousePos;
+
+            _lastMousePos2.x = Input.mousePosition.x * moveSpeedX;
+            _lastMousePos2.y = Input.mousePosition.y * moveSpeedY;
+            _lastMousePos2.z = 10f;
+            _saveMousePos2 = _lastMousePos2;
+
+            _lastOrthographicRatio = 0f;
         }
     }
 }
