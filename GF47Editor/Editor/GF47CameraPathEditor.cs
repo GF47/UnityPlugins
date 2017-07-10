@@ -120,11 +120,13 @@ namespace GF47Editor.Editor
                 {
                     float p = (insertID_C - 0.5f) / (_cameraBSpline.Count - 1);
                     BezierResult r = _cameraBSpline.GetResult(p);
+                    Undo.RecordObject(_cameraBSpline, "insert bezier point");
                     _cameraBSpline.Insert(insertID_C, new BezierPoint(r.position, HANDLE_LENGTH, BezierPoint.PointType.Bezier));
                     EditorUtility.SetDirty(_cameraBSpline);
                 }
                 if (removeID_C > -1)
                 {
+                    Undo.RecordObject(_cameraBSpline, "remove bezier point");
                     _cameraBSpline.RemoveAt(removeID_C);
                     EditorUtility.SetDirty(_cameraBSpline);
                 }
@@ -135,11 +137,13 @@ namespace GF47Editor.Editor
                 {
                     float p = (insertID_T - 0.5f) / (_targetBSpline.Count - 1);
                     BezierResult r = _targetBSpline.GetResult(p);
+                    Undo.RecordObject(_targetBSpline, "insert bezier point");
                     _targetBSpline.Insert(insertID_T, new BezierPoint(r.position, HANDLE_LENGTH, BezierPoint.PointType.Bezier));
                     EditorUtility.SetDirty(_targetBSpline);
                 }
                 if (removeID_T > -1)
                 {
+                    Undo.RecordObject(_targetBSpline, "remove bezier point");
                     _targetBSpline.RemoveAt(removeID_T);
                     EditorUtility.SetDirty(_targetBSpline);
                 }
@@ -151,6 +155,7 @@ namespace GF47Editor.Editor
             {
                 if (GUILayout.Button("Add", EditorStyles.miniButtonLeft, GUILayout.MinWidth(20f)))
                 {
+                    Undo.RecordObject(_cameraBSpline, "add bezier point");
                     _cameraBSpline.Add(new BezierPoint(GetSceneView().camera.transform.position, HANDLE_LENGTH, BezierPoint.PointType.Bezier));
                     EditorUtility.SetDirty(_cameraBSpline);
                     refreshSv = true;
@@ -160,6 +165,7 @@ namespace GF47Editor.Editor
                 {
                     if (_cameraSelectedID > -1)
                     {
+                        Undo.RecordObject(_cameraBSpline, "change pos");
                         _cameraBSpline[_cameraSelectedID].Point = GetSceneView().camera.transform.position;
                         EditorUtility.SetDirty(_cameraBSpline);
                         refreshSv = true;
@@ -191,6 +197,7 @@ namespace GF47Editor.Editor
             {
                 if (GUILayout.Button("Add", EditorStyles.miniButtonLeft,GUILayout.MinWidth(20f)))
                 {
+                    Undo.RecordObject(_targetBSpline, "add bezier point");
                     _targetBSpline.Add(new BezierPoint(GetSceneView().pivot, HANDLE_LENGTH, BezierPoint.PointType.Bezier));
                     EditorUtility.SetDirty(_targetBSpline);
                     refreshSv = true;
@@ -199,6 +206,7 @@ namespace GF47Editor.Editor
                 {
                     if (_targetSelectedID > -1)
                     {
+                        Undo.RecordObject(_targetBSpline, "change pos");
                         _targetBSpline[_targetSelectedID].Point = GetSceneView().pivot;
                         EditorUtility.SetDirty(_targetBSpline);
                         refreshSv = true;
@@ -357,18 +365,21 @@ namespace GF47Editor.Editor
 
                 if (p != point.Point)
                 {
+                    Undo.RecordObject(bs, "change pos");
                     point.Point = p;
                     EditorUtility.SetDirty(bs);
                     refreshInspector = true;
                 }
                 else if (pl != point.HandleL)
                 {
+                    Undo.RecordObject(bs, "change left handler");
                     point.HandleL = pl;
                     EditorUtility.SetDirty(bs);
                     refreshInspector = true;
                 }
                 else if (pr != point.HandleR)
                 {
+                    Undo.RecordObject(bs, "change right handler");
                     point.HandleR = pr;
                     EditorUtility.SetDirty(bs);
                     refreshInspector = true;
@@ -391,6 +402,7 @@ namespace GF47Editor.Editor
                 BezierPoint point = bs[index];
                 if (point == null)
                 {
+                    Undo.RecordObject(bs, "add bezier point");
                     bs[index] = new BezierPoint();
                     EditorUtility.SetDirty(bs);
                     point = bs[index];

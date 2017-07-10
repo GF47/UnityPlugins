@@ -19,6 +19,29 @@ namespace GF47Editor.Editor.Inspectors
     {
         private TweenBase _tweenBase;
 
+        private SerializedProperty _easeType;
+        private SerializedProperty _loopType;
+        private SerializedProperty _useRealTime;
+        private SerializedProperty _delay;
+        private SerializedProperty _duration;
+        private SerializedProperty _tweenGroup;
+        private SerializedProperty _eventReceiver;
+        private SerializedProperty _callWhenFinished;
+        private SerializedProperty _isLateUpdate;
+
+        private readonly GUIContent[] _contents = new[]
+        {
+            new GUIContent ("EaseType"),
+            new GUIContent ("LoopType"),
+            new GUIContent ("UseRealTime"),
+            new GUIContent ("Delay"),
+            new GUIContent ("Duration"),
+            new GUIContent ("TweenGroup"),
+            new GUIContent ("EventReceiver"),
+            new GUIContent ("CallWhenFinished"),
+            new GUIContent ("isLateUpdate"),
+        };
+
         private bool _isFolded = true;
 
         void OnEnable()
@@ -28,19 +51,33 @@ namespace GF47Editor.Editor.Inspectors
             {
                 _tweenBase._iPercentTargets = new List<MonoBehaviour>();
             }
+
+            _easeType = serializedObject.FindProperty("easeType");
+            _loopType = serializedObject.FindProperty("loopType");
+            _useRealTime = serializedObject.FindProperty("useRealTime");
+            _delay = serializedObject.FindProperty("delay");
+            _duration = serializedObject.FindProperty("duration");
+            _tweenGroup = serializedObject.FindProperty("tweenGroup");
+            _eventReceiver = serializedObject.FindProperty("eventReceiver");
+            _callWhenFinished = serializedObject.FindProperty("callWhenFinished");
+            _isLateUpdate = serializedObject.FindProperty("isLateUpdate");
         }
 
         public override void OnInspectorGUI()
         {
-            _tweenBase.easeType = (TweenEase)EditorGUILayout.EnumPopup("EaseType", _tweenBase.easeType);
-            _tweenBase.loopType = (TweenLoop)EditorGUILayout.EnumPopup("LoopType", _tweenBase.loopType);
-            _tweenBase.useRealTime = EditorGUILayout.Toggle("UseRealTime", _tweenBase.useRealTime);
-            _tweenBase.delay = EditorGUILayout.FloatField("Delay", _tweenBase.delay);
-            _tweenBase.duration = EditorGUILayout.FloatField("Duration", _tweenBase.duration);
-            _tweenBase.tweenGroup = EditorGUILayout.IntField("TweenGroup", _tweenBase.tweenGroup);
-            _tweenBase.eventReceiver = (GameObject)EditorGUILayout.ObjectField("EventReceiver", _tweenBase.eventReceiver, typeof(GameObject), true);
-            _tweenBase.callWhenFinished = EditorGUILayout.TextField("CallWhenFinished", _tweenBase.callWhenFinished);
-            _tweenBase.isLateUpdate = EditorGUILayout.Toggle("isLateUpdate", _tweenBase.isLateUpdate);
+            serializedObject.UpdateIfDirtyOrScript();
+
+            EditorGUILayout.PropertyField(_easeType, _contents[0]);
+            EditorGUILayout.PropertyField(_loopType, _contents[1]);
+            EditorGUILayout.PropertyField(_useRealTime, _contents[2]);
+            EditorGUILayout.PropertyField(_delay, _contents[3]);
+            EditorGUILayout.PropertyField(_duration, _contents[4]);
+            EditorGUILayout.PropertyField(_tweenGroup, _contents[5]);
+            EditorGUILayout.PropertyField(_eventReceiver, _contents[6]);
+            EditorGUILayout.PropertyField(_callWhenFinished, _contents[7]);
+            EditorGUILayout.PropertyField(_isLateUpdate, _contents[8]);
+
+            serializedObject.ApplyModifiedProperties();
 
             _isFolded = EditorGUILayout.Foldout(_isFolded, "Targets");
             if (_isFolded)
@@ -50,14 +87,27 @@ namespace GF47Editor.Editor.Inspectors
                 {
                     EditorGUILayout.BeginHorizontal();
 
-                    Object tempObj = EditorGUILayout.ObjectField(_tweenBase._iPercentTargets[i], typeof(MonoBehaviour), true);
-                    if (tempObj != null)
+                    MonoBehaviour tempObj = EditorGUILayout.ObjectField(_tweenBase._iPercentTargets[i], typeof(MonoBehaviour), true) as MonoBehaviour;
+                    if (tempObj != _tweenBase._iPercentTargets[i])
                     {
-                        _tweenBase._iPercentTargets[i] = GetMobehaviourInheritedFromIPervent(tempObj as MonoBehaviour);
+                        if (tempObj == null)
+                        {
+                            Undo.RecordObject(_tweenBase, string.Format("change iPercentTarget[{0}] to null", i));
+                            _tweenBase._iPercentTargets[i] = null;
+                            EditorUtility.SetDirty(_tweenBase);
+                        }
+                        else
+                        {
+                            Undo.RecordObject(_tweenBase, "change iPercentTarget");
+                            _tweenBase._iPercentTargets[i] = GetMobehaviourInheritedFromIPercent(tempObj);
+                            EditorUtility.SetDirty(_tweenBase);
+                        }
                     }
                     if (GUILayout.Button("-", EditorStyles.miniButton))
                     {
+                        Undo.RecordObject(_tweenBase, "remove iPercentTarget");
                         _tweenBase._iPercentTargets.RemoveAt(i);
+                        EditorUtility.SetDirty(_tweenBase);
                     }
 
                     EditorGUILayout.EndHorizontal();
@@ -65,14 +115,16 @@ namespace GF47Editor.Editor.Inspectors
 
                 if (GUILayout.Button("+"))
                 {
+                    Undo.RecordObject(_tweenBase, "add iPercentTarget");
                     _tweenBase._iPercentTargets.Add(null);
+                    EditorUtility.SetDirty(_tweenBase);
                 }
 
                 EditorGUILayout.EndVertical();
             }
         }
 
-        private static MonoBehaviour GetMobehaviourInheritedFromIPervent(MonoBehaviour tempBehaviour)
+        private static MonoBehaviour GetMobehaviourInheritedFromIPercent(MonoBehaviour tempBehaviour)
         {
             if (tempBehaviour == null) { return null; }
             if (tempBehaviour is IPercent) { return tempBehaviour; }

@@ -24,14 +24,18 @@ namespace GF47Editor.Editor.Inspectors
 
                 if (o == null)
                 {
+                    Undo.RecordObject(property.serializedObject.targetObject, "change " + label);
                     property.objectReferenceValue = null;
+                    EditorUtility.SetDirty(property.serializedObject.targetObject);
                     return;
                 }
                 if (inheritFrom.baseType.IsInstanceOfType(o))
                 {
                     if (!ReferenceEquals(o, property.objectReferenceValue))
                     {
+                        Undo.RecordObject(property.serializedObject.targetObject, "change " + label);
                         property.objectReferenceValue = o;
+                        EditorUtility.SetDirty(property.serializedObject.targetObject);
                     }
                     return;
                 }
@@ -48,7 +52,9 @@ namespace GF47Editor.Editor.Inspectors
                             {
                                 if (!ReferenceEquals(behaviours[i], property.objectReferenceValue))
                                 {
+                                    Undo.RecordObject(property.serializedObject.targetObject, "change " + label);
                                     property.objectReferenceValue = behaviours[i];
+                                    EditorUtility.SetDirty(property.serializedObject.targetObject);
                                     break;
                                 }
                             }

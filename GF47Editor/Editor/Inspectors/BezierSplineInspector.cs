@@ -88,6 +88,7 @@ namespace GF47Editor.Editor.Inspectors
                 BezierPoint point = _target[i];
                 if (point == null)
                 {
+                    Undo.RecordObject(_target, "add bezier point");
                     _target[i] = new BezierPoint();
                     EditorUtility.SetDirty(_target);
                     point = _target[i];
@@ -133,12 +134,14 @@ namespace GF47Editor.Editor.Inspectors
             {
                 float percent =(insertId - 0.5f) / (_target.Count - 1);
                 BezierResult result = _target.GetResult(percent);
+                Undo.RecordObject(_target, "insert bezier point");
                 _target.Insert(insertId, new BezierPoint(result.position, 1f, BezierPoint.PointType.Bezier));
                 EditorUtility.SetDirty(_target);
                 RepaintSceneView();
             }
             if (removeId > -1)
             {
+                Undo.RecordObject(_target, "remove bezier point");
                 _target.RemoveAt(removeId);
                 EditorUtility.SetDirty(_target);
                 RepaintSceneView();
@@ -149,6 +152,7 @@ namespace GF47Editor.Editor.Inspectors
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Add" , EditorStyles.miniButtonLeft))
             {
+                Undo.RecordObject(_target, "add bezier point");
                 _target.Add(new BezierPoint());
                 EditorUtility.SetDirty(_target);
                 RepaintSceneView();
@@ -230,16 +234,19 @@ namespace GF47Editor.Editor.Inspectors
 
                 if (p != point.Point)
                 {
+                    Undo.RecordObject(_target, "change pos");
                     point.Point = p;
                     EditorUtility.SetDirty(_target);
                 }
                 else if (pl != point.HandleL)
                 {
+                    Undo.RecordObject(_target, "change left handle");
                     point.HandleL = pl;
                     EditorUtility.SetDirty(_target);
                 }
                 else if (pr != point.HandleR)
                 {
+                    Undo.RecordObject(_target, "change right handle");
                     point.HandleR = pr;
                     EditorUtility.SetDirty(_target);
                 }

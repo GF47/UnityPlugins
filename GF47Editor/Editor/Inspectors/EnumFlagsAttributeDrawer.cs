@@ -16,7 +16,14 @@ namespace GF47Editor.Editor.Inspectors
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            property.intValue = EditorGUI.MaskField(position, label, property.intValue, property.enumNames);
+            EditorGUI.BeginChangeCheck();
+            int value = EditorGUI.MaskField(position, label, property.intValue, property.enumNames);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(property.serializedObject.targetObject, "change " + label.text);
+                property.intValue = value;
+                EditorUtility.SetDirty(property.serializedObject.targetObject);
+            }
         }
     }
 }
