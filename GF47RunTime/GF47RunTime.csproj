@@ -64,6 +64,7 @@
     <Compile Include="Data\Deserializer.cs" />
     <Compile Include="Data\Serializer.cs" />
     <Compile Include="GFMath.cs" />
+    <Compile Include="MonoSingleton.cs" />
     <Compile Include="Tween\TweenBezierSplinePath.cs" />
     <Compile Include="Tween\~Base\TweenCurve.cs" />
     <Compile Include="~Debug\GFDebug.cs" />

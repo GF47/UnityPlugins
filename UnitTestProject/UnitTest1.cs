@@ -69,5 +69,15 @@ namespace UnitTestProject
             Assert.AreEqual(0.24242d, GFMath.Mod(a, b));
             Assert.AreEqual(0.24242d, GFMath.Mod1(a));
         }
+
+        public class SingletonTest : Singleton<SingletonTest>
+        {
+            public int i = 1;
+        }
+        [TestMethod]
+        public void SingletonMono测试语法()
+        {
+            Assert.AreEqual(SingletonTest.Instance.i, 1);
+        }
     }
 }

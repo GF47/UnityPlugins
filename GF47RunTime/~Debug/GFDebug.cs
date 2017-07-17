@@ -14,8 +14,9 @@ namespace GF47RunTime
 {
     public class GFDebug : MonoBehaviour
     {
-        public static Vector2 Size = new Vector2(512f, 40f);
+        public static Vector2 Size = new Vector2(512f, 20f);
         public static Vector2 Pos = new Vector2(4f, 4f);
+        public static Vector2 FPSSize = new Vector2(256f, 20f);
 
         private static readonly GFDebug Instance;
 
@@ -79,12 +80,58 @@ namespace GF47RunTime
             Instance.enabled = true;
         }
 
+#region FPS
+        public static float FPSRefreshDelta = 2f;
+        public static bool ShowFPS
+        {
+            get { return Instance._showFPS; }
+            set
+            {
+                if (Instance._showFPS != value)
+                {
+                    Instance._showFPS = value;
+                    if (Instance._showFPS)
+                    {
+                        Instance._duration = 0f;
+                        Instance._frameCount = 0;
+                    }
+                }
+            }
+        }
+
+        private bool _showFPS = true;
+
+        private float _duration;
+        private int _frameCount;
+        private float _fps;
+
+        void Update()
+        {
+            if (_showFPS)
+            {
+                _frameCount += 1;
+                _duration += Time.deltaTime;
+
+                if (_duration > FPSRefreshDelta)
+                {
+                    _fps = _frameCount / _duration;
+                    _duration = 0f;
+                    _frameCount = 0;
+                }
+            }
+        }
+#endregion
+
         void OnGUI()
         {
             Rect r = new Rect(Pos.x, Pos.y, Size.x, Size.y);
             for (int i = 0, cursor = _current; i < Count; i++, cursor = GetPrevious(cursor), r = new Rect(r.x, r.y + Size.y, r.width, r.height))
             {
                 if (!string.IsNullOrEmpty(_infos[cursor])) { GUI.Label(r, _infos[cursor]); }
+            }
+            if (_showFPS)
+            {
+                GUI.Label(new Rect(Screen.width - FPSSize.x - Pos.x, Pos.y, FPSSize.x, FPSSize.y), _fps.ToString("F2"));
             }
         }
 
