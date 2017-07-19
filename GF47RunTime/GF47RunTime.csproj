@@ -61,10 +61,11 @@
     <Compile Include="BlackBoard.cs" />
     <Compile Include="Components\CameraUtility\BirdsEyeViewCamera.cs" />
     <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\ConstValues.cs" />
     <Compile Include="Data\Deserializer.cs" />
     <Compile Include="Data\Serializer.cs" />
     <Compile Include="GFMath.cs" />
-    <Compile Include="MonoSingleton.cs" />
+    <Compile Include="Singleton.cs" />
     <Compile Include="Tween\TweenBezierSplinePath.cs" />
     <Compile Include="Tween\~Base\TweenCurve.cs" />
     <Compile Include="~Debug\GFDebug.cs" />
@@ -85,7 +86,6 @@
     <Compile Include="ActionSystem\TriggerMethod.cs" />
     <Compile Include="Convert.cs" />
     <Compile Include="Coroutine\WaitForEndOfAnimation.cs" />
-    <Compile Include="Data\AssetBundlesReader.cs" />
     <Compile Include="Data\SqliteHelper.cs" />
     <Compile Include="Data\XmlTools.cs" />
     <Compile Include="FSM\BaseState.cs" />

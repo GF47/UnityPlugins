@@ -50,16 +50,6 @@ namespace GF47RunTime
             }
         }
 
-        /// <summary> 磁盘是否可以写入
-        /// </summary>
-        public static bool FileAccess
-        {
-            get
-            {
-                return Application.platform != RuntimePlatform.WindowsWebPlayer &&
-                       Application.platform != RuntimePlatform.OSXWebPlayer;
-            }
-        }
 
         /// <summary> 将二进制数据写入文件，储存在Unity3D的持久化存储路径中
         /// </summary>
@@ -68,11 +58,6 @@ namespace GF47RunTime
         /// <returns>写入成功</returns>
         public static bool SaveAsFile(string fileName, byte[] bytes)
         {
-#if UNITY_WEBPLAYER || UNITY_FLASH || UNITY_METRO
-		return false;
-#else
-            if (!FileAccess) return false;
-
             string path = Application.persistentDataPath + "/" + fileName;
 
             if (bytes == null)
@@ -96,7 +81,6 @@ namespace GF47RunTime
             file.Write(bytes, 0, bytes.Length);
             file.Close();
             return true;
-#endif
         }
 
         /// <summary> 从Unity3D的持久化存储路径中读取名为 fileName 的文件，并以二进制数据的形式返回文件中的数据
@@ -105,10 +89,6 @@ namespace GF47RunTime
         /// <returns>二进制数据</returns>
         public static byte[] LoadFromFile(string fileName)
         {
-#if UNITY_WEBPLAYER || UNITY_FLASH || UNITY_METRO
-		return null;
-#else
-            if (!FileAccess) return null;
 
             string path = Application.persistentDataPath + "/" + fileName;
 
@@ -117,7 +97,6 @@ namespace GF47RunTime
                 return File.ReadAllBytes(path);
             }
             return null;
-#endif
         }
 
         private const BindingFlags NonPublicBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;

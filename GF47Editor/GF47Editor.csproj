@@ -51,7 +51,6 @@
     <Compile Include="Editor\Inspectors\EnumFlagsAttributeDrawer.cs" />
     <Compile Include="Editor\GF47Configuration.cs" />
     <Compile Include="Editor\GF47CopyComponents.cs" />
-    <Compile Include="Editor\GF47CreateAssetBundles.cs" />
     <Compile Include="Editor\GF47DeleteComponentHidden.cs" />
     <Compile Include="Editor\EditorObjExporter.cs" />
     <Compile Include="Editor\GF47FindInChildren.cs" />

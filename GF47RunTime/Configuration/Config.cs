@@ -5,22 +5,11 @@ using UnityEngine;
 
 namespace GF47RunTime.Configuration
 {
-    public static class ConstValues
+    public class Config
     {
-        public const string ROOTNODE = "config";
-        public const string NODE = "add";
-        public const string NAME = "name";
-        public const string TYPE = "type";
-        public const string VALUE = "value";
-    }
+        private Dictionary<string, object> _config;
 
-    public static class Config
-    {
-        private static readonly string ConfigPath = string.Format("{0}/Data/config.xml", Application.dataPath);
-        private static Dictionary<string, object> _config;
-
-        public static void Initialize() { Initialize(ConfigPath); }
-        public static void Initialize(string configPath)
+        public void Initialize(string configPath)
         {
             _config = new Dictionary<string, object>();
 
@@ -51,7 +40,7 @@ namespace GF47RunTime.Configuration
             }
         }
 
-        public static T Get<T>(string name, T defaultValue)
+        public T Get<T>(string name, T defaultValue)
         {
             if (_config == null)
             {
@@ -65,7 +54,7 @@ namespace GF47RunTime.Configuration
             return defaultValue;
         }
 
-        public static T Get<T>(string name)
+        public T Get<T>(string name)
         {
             return Get(name, default(T));
         }
