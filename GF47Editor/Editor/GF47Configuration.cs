@@ -61,7 +61,7 @@ namespace GF47Editor.Editor
             {
                 _config = new List<Item>();
 
-                _configPath = EditorUtility.OpenFilePanelWithFilters("打开配置文件", Application.dataPath, new[] { "Config Files", "xml", "All Files", "*" });
+                _configPath = EditorUtility.OpenFilePanelWithFilters("打开配置文件", Application.dataPath, new[] { "Xml Files", "xml", "Config Files", "config", "All Files", "*" });
                 Debug.Log(_configPath);
                 Open();
             }
