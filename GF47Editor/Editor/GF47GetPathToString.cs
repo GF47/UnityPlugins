@@ -59,6 +59,20 @@ namespace GF47Editor.Editor
             EditorGUIUtility.systemCopyBuffer = pathString;
         }
 
+        [MenuItem("Assets/GF47 Editor/Get AssetPath #c", false, 0)]
+        static void CopyAssetPath()
+        {
+            Object selected = GetSelectedObject();
+            if (selected == null)
+            {
+                UnityEngine.Debug.Log("Nothing Selected");
+                return;
+            }
+            string path = AssetDatabase.GetAssetPath(selected);
+            UnityEngine.Debug.Log(path);
+            EditorGUIUtility.systemCopyBuffer = path;
+        }
+
         [MenuItem("Assets/GF47 Editor/GetSlectionPath", false, 0)]
         static void CopyPath()
         {

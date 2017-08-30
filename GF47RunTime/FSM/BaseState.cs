@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GF47RunTime.FSM
 {
     public abstract class BaseState<T> : IState<T>
     {
-        private int _id;
-        private SortedList<T, int> _nextStates;
+        public ExecuteHandler onEnterAction;
+        public ExecuteHandler onUpdateAction;
+        public ExecuteHandler onExitAction;
+
+        private readonly int _id;
+        private readonly SortedList<T, KeyValuePair<int, ExecuteHandler>> _nextStates;
         private int _nextStateID;
 
         public int ID { get { return _id; } }
@@ -16,10 +21,10 @@ namespace GF47RunTime.FSM
         {
             if (!FSMUtility.IsLogicalStateID(id))
             {
-                throw new System.ArgumentException(string.Format("请将 [ID] 设置为一个非 [{0}] 的数值", FSMUtility.NullStateID), "id");
+                throw new ArgumentException(string.Format("请将 [ID] 设置为一个非 [{0}] 的数值", FSMUtility.NullStateID), "id");
             }
             _id = id; 
-            _nextStates = new SortedList<T, int>();
+            _nextStates = new SortedList<T, KeyValuePair<int, ExecuteHandler>>();
             _nextStateID = _id;
         }
 
@@ -29,7 +34,7 @@ namespace GF47RunTime.FSM
             {
                 if (_nextStates.ContainsKey(input))
                 {
-                    _nextStateID = _nextStates[input];
+                    _nextStateID = _nextStates[input].Key;
                 }
             }
         }
@@ -39,9 +44,21 @@ namespace GF47RunTime.FSM
             return _nextStateID;
         }
 
-        public virtual void OnEnter() { }
+        public virtual void OnEnter(int lastID) { if (onEnterAction != null) onEnterAction(); }
 
-        public virtual void OnExit() { }
+        public virtual void Update() { if (onUpdateAction != null) onUpdateAction(); }
+
+        public virtual void OnExit(int nextID)
+        {
+            if (onExitAction != null) onExitAction();
+            foreach (var pair in _nextStates)
+            {
+                if (pair.Value.Key == nextID)
+                {
+                    if (pair.Value.Value != null) pair.Value.Value();
+                }
+            }
+        }
 
         public virtual void Reset()
         {
@@ -49,11 +66,14 @@ namespace GF47RunTime.FSM
             _nextStateID = _id;
         }
 
-        public virtual void Update() { } 
+        public void AddNextState(T input, int stateID, ExecuteHandler action)
+        {
+            _nextStates.Add(input, new KeyValuePair<int, ExecuteHandler>(stateID, action));
+        }
 
         public void AddNextState(T input, int stateID)
         {
-            _nextStates.Add(input, stateID);
+            _nextStates.Add(input, new KeyValuePair<int, ExecuteHandler>(stateID, null));
         }
 
         public void RemoveNextState(T input)

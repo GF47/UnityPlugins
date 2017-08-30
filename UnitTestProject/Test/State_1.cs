@@ -13,12 +13,12 @@ namespace UnitTestProject.Test
         private bool _canExitSafely;
 
         public State_1(int id) : base(id) { } 
-        public override void OnEnter()
+        public override void OnEnter(int lastID)
         {
             UnityEngine.Debug.Log("enter state 1");
         }
 
-        public override void OnExit()
+        public override void OnExit(int nextID)
         {
             UnityEngine.Debug.Log("exit state 1");
         }

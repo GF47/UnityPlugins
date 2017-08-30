@@ -9,7 +9,17 @@ namespace GF47RunTime.Configuration
     {
         private Dictionary<string, object> _config;
 
-        public void Initialize(string configPath)
+        public void Initialize_XmlString(string xmlString)
+        {
+            _config = new Dictionary<string, object>();
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xmlString);
+            XmlNode root = doc.LastChild;
+
+            Initialize(root);
+        }
+        public void Initialize_XmlFileName(string configPath)
         {
             _config = new Dictionary<string, object>();
 
@@ -17,6 +27,11 @@ namespace GF47RunTime.Configuration
             doc.Load(configPath);
             XmlNode root = doc.LastChild;
 
+            Initialize(root);
+        }
+
+        public void Initialize(XmlNode root)
+        {
             if (root != null)
             {
                 XmlNodeList list = root.SelectNodes(ConstValues.NODE);

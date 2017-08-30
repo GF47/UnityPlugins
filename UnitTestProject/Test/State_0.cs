@@ -6,12 +6,12 @@ namespace UnitTestProject.Test
     {
         public State_0(int id) : base(id) { }
 
-        public override void OnEnter()
+        public override void OnEnter(int lastID)
         {
             UnityEngine.Debug.Log("enter state 0");
         }
 
-        public override void OnExit()
+        public override void OnExit(int nextID)
         {
             UnityEngine.Debug.Log("exit state 0");
         }

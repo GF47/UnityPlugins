@@ -14,14 +14,21 @@ namespace GF47RunTime
 {
     public class GFDebug : MonoBehaviour
     {
-        public static Vector2 Size = new Vector2(512f, 20f);
-        public static Vector2 Pos = new Vector2(4f, 4f);
-        public static Vector2 FPSSize = new Vector2(256f, 20f);
+        public static Vector2 Size;
+        public static Vector2 Pos;
+        public static Vector2 FPSSize;
 
         private static readonly GFDebug Instance;
 
         static GFDebug()
         {
+            int screenW = Screen.width;
+            int screenH = Screen.height;
+
+            Size = new Vector2(screenW / 2 , screenH / 16);
+            Pos = new Vector2(16f, 16f);
+            FPSSize = new Vector2(screenW / 4, screenH / 16);
+
             if (Instance == null)
             {
                 GameObject go = new GameObject("__GFDebug")

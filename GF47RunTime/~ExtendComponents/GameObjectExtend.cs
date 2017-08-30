@@ -1,3 +1,5 @@
+using System;
+
 namespace GF47RunTime
 {
     using UnityEngine;
@@ -124,6 +126,27 @@ namespace GF47RunTime
                         return scripts[i] as T;
                     }
                 }
+            }
+            return null;
+        }
+        public static T[] GetInterfaces<T>(this GameObject target) where T : class
+        {
+            MonoBehaviour[] scripts = target.GetComponents<MonoBehaviour>();
+            if (scripts != null)
+            {
+                T[] results = new T[scripts.Length];
+                int n = 0;
+                for (int i = 0; i < scripts.Length; i++)
+                {
+                    T tmp = scripts[i] as T;
+                    if (tmp != null)
+                    {
+                        results[n] = tmp;
+                        n++;
+                    }
+                }
+                Array.Resize(ref results, n);
+                return results;
             }
             return null;
         }

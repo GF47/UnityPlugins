@@ -2,109 +2,39 @@
 
 namespace GF47RunTime.Updater
 {
-    public class FloatBuffer : IValueBuffer<float>
+    public class FloatBuffer : AbstractValueBuffer<float>
     {
-        private bool _state;
-        private float _value;
-        private float _initialValue;
-        private float _differenceValue;
-        private float _duration;
-        private float _percent;
+        public FloatBuffer(float initialValue, Action<float> callback, float duration) : base(initialValue, callback, duration) { }
 
-        private PerFrameUpdateNode _updaterNode;
+        public FloatBuffer(float initialValue, Action<float> callback) : base(initialValue, callback) { }
 
-        public event Action<float> OnValueChangeHandler;
-        public event Action<float> OnValueChangeStartHandler;
-        public event Action<float> OnValueChangeStopHandler;
+        protected override float Addition(float a, float b) { return a + b; }
 
-        public bool State
+        protected override float Subtraction(float a, float b) { return a - b; }
+
+        protected override float Multiplication(float multiplier, float originValue) { return multiplier * originValue; }
+        protected override bool Division(float originValue, float divisor, out float result)
         {
-            get { return _state; }
-            set
+            if (Math.Abs(divisor) < 1e-6f)
             {
-                if (_state == value) { return; }
-
-                if (_updaterNode == null)
-                {
-                    _updaterNode = new PerFrameUpdateNode(Update);
-                }
-
-                _state = value;
-
-                if (_state)
-                {
-                    _updaterNode.Start();
-                    if (OnValueChangeStartHandler != null) { OnValueChangeStartHandler(_value); }
-                }
-                else
-                {
-                    _updaterNode.Stop();
-                    if (OnValueChangeStopHandler != null) { OnValueChangeStopHandler(_value); }
-                }
+                result = originValue;
+                return false;
             }
+
+            result = originValue / divisor;
+            return true;
         }
 
-        public float Target
+
+        protected override bool IsLengthGreaterThanTMin(float value)
         {
-            get { return _initialValue + _differenceValue; }
-            set
-            {
-                _initialValue = _value;
-                _differenceValue = value - _value;
-                _percent = 0f;
-                State = Math.Abs(_differenceValue) > 1e-6f;
-            }
+            return Math.Abs(value) > 1e-6f;
         }
 
-        public float Current
+        protected override float Projection(float value, float start, float end)
         {
-            get { return _value; }
-            set
-            {
-                _value = value;
-                _percent = (_value - _initialValue) / _differenceValue;
-            }
-        }
-
-        public float Duration
-        {
-            get { return _duration; }
-            set { _duration = Math.Max(value, 0.01f); }
-        }
-
-        public float Percent
-        {
-            get { return _percent; }
-        }
-
-        public FloatBuffer(float initialValue , Action<float> callback, float duration)
-        {
-            OnValueChangeHandler = callback;
-            Current = initialValue;
-            Duration = duration;
-        }
-        public FloatBuffer(float initialValue, Action<float> callback) : this(initialValue, callback, 1f) { }
-
-        public void Update(float delta)
-        {
-            _percent += delta / _duration;
-            if (_percent >= 1f)
-            {
-                State = false;
-            }
-            _percent = Math.Min(_percent, 1f);
-            _value = _initialValue + _percent * _differenceValue;
-            if (OnValueChangeHandler != null)
-            {
-                OnValueChangeHandler(_value);
-            }
-        }
-
-        public void Clear()
-        {
-            OnValueChangeHandler = null;
-            OnValueChangeStartHandler = null;
-            OnValueChangeStopHandler = null;
+            if (Math.Abs(end - start) < 1e-6f) { return 1f; }
+            return (value - start) / (end - start);
         }
     }
 }

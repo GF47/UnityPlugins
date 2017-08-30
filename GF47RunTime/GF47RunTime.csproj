@@ -32,16 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Data">
-      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Mono\lib\mono\2.0\Mono.Data.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="Mono.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL" />
     <Reference Include="Mono.Data.Sqlite">
       <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Mono\lib\mono\2.0\Mono.Data.Sqlite.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Data">
+      <HintPath>C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System.XML" />
     <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -57,20 +56,36 @@
   <ItemGroup>
     <Compile Include="ActionSystem\ActionContainerList.cs" />
     <Compile Include="ActionSystem\MutualExclusionGroup.cs" />
+    <Compile Include="AssetBundles\ABConfig.cs" />
+    <Compile Include="AssetBundles\ABDownLoader.cs" />
+    <Compile Include="AssetBundles\ABItem.cs" />
+    <Compile Include="AssetBundles\ABUpdater.cs" />
+    <Compile Include="AssetBundles\AssetBundlesManager.cs" />
+    <Compile Include="AssetBundles\AssetsMap.cs" />
+    <Compile Include="AssetBundles\AssetsMapDownLoader.cs" />
+    <Compile Include="AssetBundles\HttpAsyncDownLoader.cs" />
+    <Compile Include="AssetBundles\Platform.cs" />
+    <Compile Include="Attributes\GetAssetNameAttribute.cs" />
     <Compile Include="Attributes\InheritFromAttribute.cs" />
     <Compile Include="BlackBoard.cs" />
     <Compile Include="Components\CameraUtility\BirdsEyeViewCamera.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\ConstValues.cs" />
+    <Compile Include="Coroutines.cs" />
     <Compile Include="Data\Deserializer.cs" />
     <Compile Include="Data\Serializer.cs" />
+    <Compile Include="FileUtility.cs" />
     <Compile Include="GFMath.cs" />
+    <Compile Include="SimpleJSON\SimpleJSON.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="Tween\TweenBezierSplinePath.cs" />
     <Compile Include="Tween\~Base\TweenCurve.cs" />
+    <Compile Include="Updater\AbstractValueBuffer.cs" />
+    <Compile Include="Updater\Vector3Buffer.cs" />
     <Compile Include="~Debug\GFDebug.cs" />
     <Compile Include="~ExtendComponents\CameraExtend.cs" />
     <Compile Include="~ExtendComponents\GameObjectExtend.cs" />
+    <Compile Include="~ExtendValueTypes\Int32Cycle.cs" />
     <Compile Include="~ExtendValueTypes\Int32Extend.cs" />
     <Compile Include="~ExtendValueTypes\SingleExtend.cs" />
     <Compile Include="~ExtendComponents\TransformExtend.cs" />
@@ -137,6 +152,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="~Temp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleJSON\SimpleJSON.cs.meta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

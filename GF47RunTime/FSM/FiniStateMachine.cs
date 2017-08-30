@@ -31,7 +31,7 @@ namespace GF47RunTime.FSM
             {
                 _currentState = _states[id];
                 _currentStateID = id;
-                _currentState.OnEnter();
+                _currentState.OnEnter(id);
             }
         }
 
@@ -55,6 +55,8 @@ namespace GF47RunTime.FSM
 
         public void Update()
         {
+            _currentState.Update();
+
             int tempStateID = _currentState.GetNextStateID();
 
 #if USE_ANY_STATE
@@ -73,15 +75,14 @@ namespace GF47RunTime.FSM
             {
                 if (_states.ContainsKey(tempStateID))
                 {
-                    _currentState.OnExit();
+                    _currentState.OnExit(tempStateID);
                     _currentState.Reset();
                     _currentState = _states[tempStateID];
+                    int lastID = _currentStateID;
                     _currentStateID = tempStateID;
-                    _currentState.OnEnter();
+                    _currentState.OnEnter(lastID);
                 }
             }
-            
-            _currentState.Update();
         }
 
         public void GetInput(T input)
