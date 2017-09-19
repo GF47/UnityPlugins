@@ -25,9 +25,9 @@ namespace GF47RunTime
             int screenW = Screen.width;
             int screenH = Screen.height;
 
-            Size = new Vector2(screenW / 2 , screenH / 16);
+            Size = new Vector2(screenW / 2f , screenH / 16f);
             Pos = new Vector2(16f, 16f);
-            FPSSize = new Vector2(screenW / 4, screenH / 16);
+            FPSSize = new Vector2(screenW / 4f, screenH / 16f);
 
             if (Instance == null)
             {
