@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace GF47Editor.Editor
@@ -12,24 +13,37 @@ namespace GF47Editor.Editor
 
             Object[] selectedAssets = Selection.GetFiltered(typeof(Object), SelectionMode.TopLevel);
 
-            string targetPath = EditorUtility.OpenFolderPanel("复制到", Application.dataPath, string.Empty);
-            if (string.IsNullOrEmpty(targetPath))
+            string sourceDir = Application.dataPath.Replace('/', '\\');
+            sourceDir = sourceDir.Substring(0, sourceDir.Length - 7);
+            string targetDir = EditorUtility.OpenFolderPanel("复制到", Application.dataPath, string.Empty);
+            targetDir = targetDir.Replace('/', '\\');
+
+            if (string.IsNullOrEmpty(targetDir))
             {
                 Debug.Log("取消复制操作");
                 return;
             }
+            bool retainDirectory = EditorUtility.DisplayDialog("是否保留目录结构", "是否选择保留目录结构，如果选择否，则文件被收集到刚选择的目录下", "是", "否");
+
             for (int i = 0; i < selectedAssets.Length; i++)
             {
                 if (AssetDatabase.Contains(selectedAssets[i]))
                 {
-                    string path = AssetDatabase.GetAssetPath(selectedAssets[i]);
-                    if (AssetDatabase.CopyAsset(path, targetPath))
+                    string assetFileNameRelative = AssetDatabase.GetAssetPath(selectedAssets[i]).Replace('/', '\\');
+                    string assetFileName = assetFileNameRelative.Substring(assetFileNameRelative.LastIndexOf('\\') + 1);
+                    string sourceFile = string.Format("{0}\\{1}", sourceDir, assetFileNameRelative);
+                    string targetFile = string.Format("{0}\\{1}", targetDir, retainDirectory ? assetFileNameRelative : assetFileName);
+                    string targetDirNew = Path.GetDirectoryName(targetFile);
+                    if (!Directory.Exists(targetDirNew))
                     {
-                        string metaDataPath = AssetDatabase.GetTextMetaFilePathFromAssetPath(path);
-                        string metaDataName = metaDataPath.Substring(metaDataPath.LastIndexOf('/') + 1);
-                        if (!string.IsNullOrEmpty(metaDataPath))
+                        Directory.CreateDirectory(targetDirNew);
+                    }
+                    if (File.Exists(sourceFile) && !File.Exists(targetFile))
+                    {
+                        File.Copy(sourceFile, targetFile);
+                        if (File.Exists(sourceFile + ".meta"))
                         {
-                            FileUtil.CopyFileOrDirectory(metaDataPath, string.Format("{0}/{1}", targetPath,metaDataName));
+                            File.Copy(sourceFile + ".meta", targetFile + ".meta");
                         }
                     }
                 }
