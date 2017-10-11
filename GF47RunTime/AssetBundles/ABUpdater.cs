@@ -62,6 +62,7 @@ namespace Assets
 
         private IEnumerator __Init()
         {
+            // TODO 如果不需要热更新，那么把下边一行注释掉，不然会因为连不上ab包服务器而等待很久
             yield return new AssetsMapDownLoader();
             yield return new AssetsMap();
 
