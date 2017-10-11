@@ -46,32 +46,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editor\BuildAB.cs" />
-    <Compile Include="Editor\CreateScriptableObjectAssets.cs" />
-    <Compile Include="Editor\GF47CameraPathEditor.cs" />
-    <Compile Include="Editor\Inspectors\EnumFlagsAttributeDrawer.cs" />
-    <Compile Include="Editor\GF47Configuration.cs" />
-    <Compile Include="Editor\GF47CopyComponents.cs" />
-    <Compile Include="Editor\GF47DeleteComponentHidden.cs" />
-    <Compile Include="Editor\EditorObjExporter.cs" />
-    <Compile Include="Editor\GF47FindInChildren.cs" />
-    <Compile Include="Editor\GF47CopyTransform.cs" />
-    <Compile Include="Editor\GF47Duplicate.cs" />
-    <Compile Include="Editor\GF47GatherAssets.cs" />
-    <Compile Include="Editor\GF47GetPathToString.cs" />
-    <Compile Include="Editor\GF47GetRelativeTransform.cs" />
-    <Compile Include="Editor\GF47MakeGroup.cs" />
-    <Compile Include="Editor\GF47RenameObject.cs" />
-    <Compile Include="Editor\GF47RenderCubeMapEditor.cs" />
-    <Compile Include="Editor\GF47Serialization.cs" />
-    <Compile Include="Editor\GF47SkyBoxGenerator.cs" />
-    <Compile Include="Editor\GF47SnapSettings.cs" />
-    <Compile Include="Editor\GF47SortArray.cs" />
-    <Compile Include="Editor\Inspectors\BezierSplineInspector.cs" />
-    <Compile Include="Editor\Inspectors\DecoratorEditor.cs" />
-    <Compile Include="Editor\Inspectors\InheritFromAttributeDrawer.cs" />
-    <Compile Include="Editor\Inspectors\TweenBaseInspector.cs" />
-    <Compile Include="Editor\SceneTools.cs" />
+    <Compile Include="src\BuildAB.cs" />
+    <Compile Include="src\CreateScriptableObjectAssets.cs" />
+    <Compile Include="src\GF47CameraPathEditor.cs" />
+    <Compile Include="src\Inspectors\EnumFlagsAttributeDrawer.cs" />
+    <Compile Include="src\GF47Configuration.cs" />
+    <Compile Include="src\GF47CopyComponents.cs" />
+    <Compile Include="src\GF47DeleteComponentHidden.cs" />
+    <Compile Include="src\EditorObjExporter.cs" />
+    <Compile Include="src\GF47FindInChildren.cs" />
+    <Compile Include="src\GF47CopyTransform.cs" />
+    <Compile Include="src\GF47Duplicate.cs" />
+    <Compile Include="src\GF47GatherAssets.cs" />
+    <Compile Include="src\GF47GetPathToString.cs" />
+    <Compile Include="src\GF47GetRelativeTransform.cs" />
+    <Compile Include="src\GF47MakeGroup.cs" />
+    <Compile Include="src\GF47RenameObject.cs" />
+    <Compile Include="src\GF47RenderCubeMapEditor.cs" />
+    <Compile Include="src\GF47Serialization.cs" />
+    <Compile Include="src\GF47SkyBoxGenerator.cs" />
+    <Compile Include="src\GF47SnapSettings.cs" />
+    <Compile Include="src\GF47SortArray.cs" />
+    <Compile Include="src\Inspectors\BezierSplineInspector.cs" />
+    <Compile Include="src\Inspectors\DecoratorEditor.cs" />
+    <Compile Include="src\Inspectors\InheritFromAttributeDrawer.cs" />
+    <Compile Include="src\Inspectors\TweenBaseInspector.cs" />
+    <Compile Include="src\SceneTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
