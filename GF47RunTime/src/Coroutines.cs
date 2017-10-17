@@ -14,20 +14,18 @@ namespace GF47RunTime
 {
     public class Coroutines : MonoBehaviour
     {
-
-        private static Coroutines _instance;
-
-        [RuntimeInitializeOnLoadMethod]
-        private static void Initialize()
+        static Coroutines()
         {
             GameObject go = new GameObject("Coroutines");
             DontDestroyOnLoad(go);
             _instance = go.AddComponent<Coroutines>();
         }
 
+        private static Coroutines _instance;
+
         public static void StartACoroutineWithCallback(IEnumerator routine, Action callback)
         {
-            _instance.StartCoroutine(__StartACoroutineWithCallback(routine, callback));
+            _instance.StartCoroutine(__startACoroutineWithCallback(routine, callback));
         }
 
         public static void StartACoroutine(IEnumerator routine)
@@ -37,7 +35,7 @@ namespace GF47RunTime
 
         public static void DelayInvoke(Action action, float delay)
         {
-            _instance.StartCoroutine(__StartACoroutineWithCallback(new WaitForSecondsRealtime(delay), action));
+            _instance.StartCoroutine(__startACoroutineWithCallback(new WaitForSecondsRealtime(delay), action));
         }
 
         public static void StopACoroutine(IEnumerator routine)
@@ -50,7 +48,7 @@ namespace GF47RunTime
             _instance.StopAllCoroutines();
         }
 
-        private static IEnumerator __StartACoroutineWithCallback(IEnumerator routine, Action callback)
+        private static IEnumerator __startACoroutineWithCallback(IEnumerator routine, Action callback)
         {
             yield return routine;
             if (callback != null) { callback(); }

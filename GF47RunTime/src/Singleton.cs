@@ -21,7 +21,7 @@ namespace GF47RunTime
                 {
                     if (ConstructFunc == null)
                     {
-                        throw new NullReferenceException("ConstructFunc为空，请先指定构造方法");
+                        throw new NullReferenceException(typeof(Singleton<T>) + "的ConstructFunc为空，请先指定构造方法");
                     }
                     instance = ConstructFunc();
                 }
@@ -43,7 +43,7 @@ namespace GF47RunTime
                 {
                     if (ConstructFunc == null)
                     {
-                        throw new NullReferenceException("ConstructFunc为空，请先指定构造方法");
+                        throw new NullReferenceException(typeof(MonoSingleton<T>) + "的ConstructFunc为空，请先指定构造方法");
                     }
                     instance = ConstructFunc();
                 }

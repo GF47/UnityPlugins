@@ -8,13 +8,12 @@
 
 // TODO 如果不联网更新，则需要把 NEED_TO_CONNECT_TO_THE_AB_SERVER 开启
 #define NEED_TO_CONNECT_TO_THE_AB_SERVER
-#undef NEED_TO_CONNECT_TO_THE_AB_SERVER
+// #undef NEED_TO_CONNECT_TO_THE_AB_SERVER
 
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace GF47RunTime.AssetBundles
 {
@@ -57,8 +56,11 @@ namespace GF47RunTime.AssetBundles
 
         private List<ABDownLoader> _downLoaders;
 
-        public ABUpdater()
+        private readonly bool _need2Connect2Server; // 是否需要联网，如果为false，则省略联网更新步骤
+
+        public ABUpdater(bool need2Connect2Server = true)
         {
+            _need2Connect2Server = need2Connect2Server;
             AssetBundlesManager.ConstructFunc = () => new AssetBundlesManager();
             Coroutines.StartACoroutine(__Init());
         }
@@ -66,8 +68,9 @@ namespace GF47RunTime.AssetBundles
         private IEnumerator __Init()
         {
 #if NEED_TO_CONNECT_TO_THE_AB_SERVER
+            if (_need2Connect2Server) { yield return new AssetsMapDownLoader(); }
 #else
-            yield return new AssetsMapDownLoader();
+            // 无需联网，省略此步骤
 #endif
             yield return new AssetsMap();
 
@@ -89,7 +92,6 @@ namespace GF47RunTime.AssetBundles
             }
 
             yield return this;
-            Assert.IsFalse(keepWaiting);
 
             _isUpdateFinished = true;
         }
