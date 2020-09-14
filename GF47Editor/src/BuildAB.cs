@@ -26,6 +26,7 @@ using Object = UnityEngine.Object;
 
 namespace GF47Editor
 {
+    [Obsolete]
     public class BuildAB
     {
         private const string CHAR_COLLECT_SUBASSETS_TO_SINGLE_ASSETBUNDLE = "@";
@@ -169,7 +170,7 @@ namespace GF47Editor
 
         private static void BuildAll(RuntimePlatform platform, BuildTarget target)
         {
-            Caching.CleanCache();
+            Caching.ClearCache();
 
             string[] assetbundleNames = AssetDatabase.GetAllAssetBundleNames();
             AssetBundleBuild[] abBuilds = new AssetBundleBuild[assetbundleNames.Length];
@@ -346,7 +347,7 @@ namespace GF47Editor
         [MenuItem("AssetBundles/Clean Cache")]
         private static void CleanCache()
         {
-            Caching.CleanCache();
+            Caching.ClearCache();
         }
 
         /// <summary>

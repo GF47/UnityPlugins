@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using SimpleJSON;
+using System;
 
 namespace GF47RunTime.AssetBundles
 {
+    [Obsolete]
     public class AssetsMap  : CustomYieldInstruction
     {
         public static AssetsMap Instance { get { return _instance; } }

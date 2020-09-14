@@ -6,6 +6,7 @@
  * @Edit            : none
  **************************************************************/
 
+using System;
 using System.Collections;
 using System.IO;
 using GF47RunTime;
@@ -13,6 +14,7 @@ using UnityEngine;
 
 namespace GF47RunTime.AssetBundles
 {
+    [Obsolete]
     public class ABItem
     {
         public string path;

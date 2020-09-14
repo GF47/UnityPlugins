@@ -4,6 +4,7 @@ using System.Net;
 
 namespace GF47RunTime.AssetBundles
 {
+    [Obsolete]
     public class HttpAsyncDownLoader : IDisposable
     {
         public enum State

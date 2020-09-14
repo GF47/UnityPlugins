@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace GF47RunTime.AssetBundles
 {
+    [Obsolete]
     public class AssetsMapDownLoader : CustomYieldInstruction
     {
         public int Progress { get { return _downLoader.percent; } }

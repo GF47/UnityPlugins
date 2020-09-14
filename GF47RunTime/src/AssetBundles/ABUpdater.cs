@@ -10,6 +10,7 @@
 #define NEED_TO_CONNECT_TO_THE_AB_SERVER
 // #undef NEED_TO_CONNECT_TO_THE_AB_SERVER
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +18,7 @@ using UnityEngine;
 
 namespace GF47RunTime.AssetBundles
 {
+    [Obsolete]
     public class ABUpdater : CustomYieldInstruction
     {
         public int Progress

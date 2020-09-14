@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace GF47RunTime.AssetBundles
 {
+    [Obsolete]
     public static class ABConfig
     {
         /// <summary>

@@ -209,14 +209,14 @@ namespace GF47Editor.Inspectors
             float size = HandleUtility.GetHandleSize(point.Point);
 
             Handles.color = Color.blue;
-            if (Handles.Button(point.Point, Quaternion.identity, size * HANDLE_SIZE, size * PICK_SIZE, Handles.DotCap))
+            if (Handles.Button(point.Point, Quaternion.identity, size * HANDLE_SIZE, size * PICK_SIZE, Handles.DotHandleCap))
             {
                 _selectedIndex = index;
                 Repaint();
             }
 
             Handles.color = Color.gray;
-            if (Handles.Button(point.HandleL, Quaternion.identity, size*HANDLE_SIZE, size*PICK_SIZE, Handles.DotCap) || Handles.Button(point.HandleR, Quaternion.identity, size*HANDLE_SIZE, size*PICK_SIZE, Handles.DotCap))
+            if (Handles.Button(point.HandleL, Quaternion.identity, size*HANDLE_SIZE, size*PICK_SIZE, Handles.DotHandleCap) || Handles.Button(point.HandleR, Quaternion.identity, size*HANDLE_SIZE, size*PICK_SIZE, Handles.DotHandleCap))
             {
                 _selectedIndex = index;
                 Repaint();

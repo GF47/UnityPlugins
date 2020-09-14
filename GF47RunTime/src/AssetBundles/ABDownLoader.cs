@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace GF47RunTime.AssetBundles
 {
+    [Obsolete]
     public class ABDownLoader : CustomYieldInstruction
     {
         public int Progress

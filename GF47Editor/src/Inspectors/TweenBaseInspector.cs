@@ -65,7 +65,7 @@ namespace GF47Editor.Inspectors
 
         public override void OnInspectorGUI()
         {
-            serializedObject.UpdateIfDirtyOrScript();
+            serializedObject.UpdateIfRequiredOrScript();
 
             EditorGUILayout.PropertyField(_easeType, _contents[0]);
             EditorGUILayout.PropertyField(_loopType, _contents[1]);

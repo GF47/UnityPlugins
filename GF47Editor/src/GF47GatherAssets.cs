@@ -9,7 +9,7 @@ namespace GF47Editor
         [MenuItem("Assets/GF47 Editor/Gather Asset To &g", false , 0)]
         static void GatherAssets()
         {
-            Caching.CleanCache();
+            Caching.ClearCache();
 
             Object[] selectedAssets = Selection.GetFiltered(typeof(Object), SelectionMode.TopLevel);
 

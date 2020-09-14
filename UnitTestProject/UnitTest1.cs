@@ -1,4 +1,5 @@
 ﻿using GF47RunTime;
+using GF47RunTime.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnityEngine;
 
@@ -78,6 +79,33 @@ namespace UnitTestProject
         public void SingletonMono测试语法()
         {
             Assert.AreEqual(SingletonTest.Instance.i, 1);
+        }
+
+        [TestMethod]
+        public void IndexedQueue测试()
+        {
+            IndexedQueue<string> queue = new IndexedQueue<string>();
+            Assert.AreEqual(queue.Count, 0);
+
+            queue.Enqueue("2333");
+            Assert.AreEqual(queue.Count, 1);
+
+            queue.Enqueue("fugen");
+            Assert.AreEqual(queue.Count, 2);
+
+            queue.Enqueue("test");
+            Assert.AreEqual(queue.Count, 3);
+
+            var str = queue.Peek();
+            Assert.AreEqual(str, "2333");
+            Assert.AreEqual(queue.Count, 3);
+
+            str = string.Empty;
+            str = queue.Dequeue();
+            Assert.AreEqual(str, "2333");
+            Assert.AreEqual(queue.Count, 2);
+
+            Assert.AreEqual(queue[1], "test");
         }
     }
 }

@@ -32,9 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL" />
     <Reference Include="Mono.Data.Sqlite">
-      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Mono\lib\mono\2.0\Mono.Data.Sqlite.dll</HintPath>
+      <HintPath>D:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\Mono.Data.Sqlite.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -42,15 +41,11 @@
       <HintPath>C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Data.dll</HintPath>
     </Reference>
     <Reference Include="System.XML" />
-    <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\unity5.3.4\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="UnityEditor">
+      <HintPath>D:\Program Files\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\unity5.3.4\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="UnityEngine">
+      <HintPath>D:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +62,7 @@
     <Compile Include="src\Attributes\GetAssetNameAttribute.cs" />
     <Compile Include="src\Attributes\InheritFromAttribute.cs" />
     <Compile Include="src\BlackBoard.cs" />
+    <Compile Include="src\Collections\IndexedQueue.cs" />
     <Compile Include="src\Components\CameraUtility\BirdsEyeViewCamera.cs" />
     <Compile Include="src\Configuration\Config.cs" />
     <Compile Include="src\Configuration\ConstValues.cs" />

@@ -63,6 +63,8 @@ namespace GF47Editor
                         FieldInfo[] fields = type.GetFields(flag);
                         for (int i = 0; i < fields.Length; i++)
                         {
+                            if (fields[i].IsDefined(typeof(ObsoleteAttribute), true)) { continue; }
+
                             string fName = fields[i].Name;
                             try
                             {
@@ -86,6 +88,7 @@ namespace GF47Editor
                         PropertyInfo[] properties = type.GetProperties(flag);
                         for (int i = 0; i < properties.Length; i++)
                         {
+                            if (properties[i].IsDefined(typeof(ObsoleteAttribute), true)) { continue; }
                             string pName = properties[i].Name;
                             try
                             {

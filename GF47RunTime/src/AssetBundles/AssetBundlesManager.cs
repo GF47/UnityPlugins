@@ -6,12 +6,14 @@
  * @Edit            : none
  **************************************************************/
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace GF47RunTime.AssetBundles
 {
+    [Obsolete]
     public class AssetBundlesManager : Singleton<AssetBundlesManager>
     {
         private AssetBundleManifest _manifest;
