@@ -67,6 +67,7 @@
     <Compile Include="src\Configuration\Config.cs" />
     <Compile Include="src\Configuration\ConstValues.cs" />
     <Compile Include="src\Coroutines.cs" />
+    <Compile Include="src\Data\CSV\CSVHelper.cs" />
     <Compile Include="src\Data\Deserializer.cs" />
     <Compile Include="src\Data\Serializer.cs" />
     <Compile Include="src\FileUtility.cs" />

@@ -9,7 +9,7 @@ namespace GF47Editor
 {
     public class GF47GetPathToString : ScriptableObject
     {
-        private const string EditorPath = @"D:\Program Files (x86)\Vim\vim74\gvim.exe";
+        private const string EditorPath = @"gvim.bat";
 
         [MenuItem("Assets/GF47 Editor/OpenSelectedByGivenTool &o", false, 0)]
         static void OpenSelectedByGivenTool()

@@ -49,20 +49,23 @@ namespace GF47Editor
                     {
                         Type type = _component.GetType();
 
-                        XmlTextWriter xmlTextWriter = new XmlTextWriter(writer);
-                        xmlTextWriter.Formatting = Formatting.Indented;
+                        XmlTextWriter xmlTextWriter = new XmlTextWriter(writer)
+                        {
+                            Formatting = Formatting.Indented
+                        };
                         xmlTextWriter.WriteStartDocument();
                         xmlTextWriter.WriteStartElement(_component.name);
 
                         BindingFlags flag  = BindingFlags.Instance | BindingFlags.Public;
                         if (_includeNonPublic)
                         {
-                            flag = flag | BindingFlags.NonPublic;
+                            flag |= BindingFlags.NonPublic;
                         }
 
                         FieldInfo[] fields = type.GetFields(flag);
                         for (int i = 0; i < fields.Length; i++)
                         {
+                            /* if (fields[i].GetCustomAttribute<ObsoleteAttribute>() != null) { continue; } */
                             if (fields[i].IsDefined(typeof(ObsoleteAttribute), true)) { continue; }
 
                             string fName = fields[i].Name;
@@ -88,6 +91,7 @@ namespace GF47Editor
                         PropertyInfo[] properties = type.GetProperties(flag);
                         for (int i = 0; i < properties.Length; i++)
                         {
+                            /* if (properties[i].GetCustomAttribute<ObsoleteAttribute>() != null) { continue; } */
                             if (properties[i].IsDefined(typeof(ObsoleteAttribute), true)) { continue; }
                             string pName = properties[i].Name;
                             try
