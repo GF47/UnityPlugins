@@ -42,7 +42,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\BuildAB.cs" />
     <Compile Include="src\CreateLineRenderFromBezier.cs" />
     <Compile Include="src\CreateScriptableObjectAssets.cs" />
     <Compile Include="src\CsvBezierConvert.cs" />

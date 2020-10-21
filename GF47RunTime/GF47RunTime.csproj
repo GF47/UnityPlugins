@@ -49,16 +49,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\ActionSystem\ActionContainerList.cs" />
-    <Compile Include="src\ActionSystem\MutualExclusionGroup.cs" />
-    <Compile Include="src\AssetBundles\ABConfig.cs" />
-    <Compile Include="src\AssetBundles\ABDownLoader.cs" />
-    <Compile Include="src\AssetBundles\ABItem.cs" />
-    <Compile Include="src\AssetBundles\ABUpdater.cs" />
-    <Compile Include="src\AssetBundles\AssetBundlesManager.cs" />
-    <Compile Include="src\AssetBundles\AssetsMap.cs" />
-    <Compile Include="src\AssetBundles\AssetsMapDownLoader.cs" />
-    <Compile Include="src\AssetBundles\HttpAsyncDownLoader.cs" />
     <Compile Include="src\Attributes\GetAssetNameAttribute.cs" />
     <Compile Include="src\Attributes\InheritFromAttribute.cs" />
     <Compile Include="src\BlackBoard.cs" />
@@ -72,6 +62,9 @@
     <Compile Include="src\Data\Serializer.cs" />
     <Compile Include="src\FileUtility.cs" />
     <Compile Include="src\GFMath.cs" />
+    <Compile Include="src\Net\ABConfig.cs" />
+    <Compile Include="src\Net\ABItem.cs" />
+    <Compile Include="src\Net\HttpDownloader.cs" />
     <Compile Include="src\SimpleJSON\SimpleJSON.cs" />
     <Compile Include="src\Singleton.cs" />
     <Compile Include="src\Tween\TweenBezierSplinePath.cs" />
@@ -91,10 +84,6 @@
     </Compile>
     <Compile Include="src\Components\CameraUtility\CameraController.cs" />
     <Compile Include="src\Components\CameraUtility\CameraTargetController.cs" />
-    <Compile Include="src\ActionSystem\ActionTrigger.cs" />
-    <Compile Include="src\ActionSystem\ActionNode.cs" />
-    <Compile Include="src\ActionSystem\ActionContainer.cs" />
-    <Compile Include="src\ActionSystem\TriggerMethod.cs" />
     <Compile Include="src\Convert.cs" />
     <Compile Include="src\Coroutine\WaitForEndOfAnimation.cs" />
     <Compile Include="src\Data\SqliteHelper.cs" />
