@@ -3,7 +3,7 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 
-namespace GF47RunTime.Net
+namespace GF47RunTime.AssetBundles 
 {
     public class ABItem
     {
@@ -35,7 +35,7 @@ namespace GF47RunTime.Net
             ab = request.assetBundle;
         }
 
-        public void Unload(bool force)
+        public void Unload(bool force = true)
         {
             if (force)
             {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace GF47RunTime.Net
+namespace GF47RunTime.AssetBundles
 {
     public class HttpDownloader : IDisposable
     {
@@ -32,7 +32,8 @@ namespace GF47RunTime.Net
         /// </summary>
         public static int RWTimeOutThreshold = RW_TIME_OUT_THRESHOLD;
 
-        private int percent;
+        public int Percent { get; private set; }
+
         private readonly string url;
         private readonly string nativePath;
         private readonly Action<bool> finishCallback;
@@ -124,7 +125,7 @@ namespace GF47RunTime.Net
                     currentSize += readSize;
 
                     var percent = (int)((double)currentSize * 100 / contentLenght);
-                    if (state.percent < percent) { state.percent = percent; }
+                    if (state.Percent < percent) { state.Percent = percent; }
                     // 这里貌似需要写入？不然大概续传不了
                 }
 

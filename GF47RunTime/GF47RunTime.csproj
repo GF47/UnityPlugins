@@ -49,6 +49,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\AssetBundles\ABDownloader.cs" />
+    <Compile Include="src\AssetBundles\ABUpdater.cs" />
+    <Compile Include="src\AssetBundles\AssetBundlesManager.cs" />
+    <Compile Include="src\AssetBundles\AssetsMap.cs" />
+    <Compile Include="src\AssetBundles\AssetsMapDownLoader.cs" />
     <Compile Include="src\Attributes\GetAssetNameAttribute.cs" />
     <Compile Include="src\Attributes\InheritFromAttribute.cs" />
     <Compile Include="src\BlackBoard.cs" />
@@ -62,9 +67,9 @@
     <Compile Include="src\Data\Serializer.cs" />
     <Compile Include="src\FileUtility.cs" />
     <Compile Include="src\GFMath.cs" />
-    <Compile Include="src\Net\ABConfig.cs" />
-    <Compile Include="src\Net\ABItem.cs" />
-    <Compile Include="src\Net\HttpDownloader.cs" />
+    <Compile Include="src\AssetBundles\ABConfig.cs" />
+    <Compile Include="src\AssetBundles\ABItem.cs" />
+    <Compile Include="src\AssetBundles\HttpDownloader.cs" />
     <Compile Include="src\SimpleJSON\SimpleJSON.cs" />
     <Compile Include="src\Singleton.cs" />
     <Compile Include="src\Tween\TweenBezierSplinePath.cs" />

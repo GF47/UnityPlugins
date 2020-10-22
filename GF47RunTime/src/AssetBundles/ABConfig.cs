@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace GF47RunTime.Net
+namespace GF47RunTime.AssetBundles
 {
     public class ABConfig
     {
@@ -36,11 +36,25 @@ namespace GF47RunTime.Net
 
         public const string ASSETSMAP_NAME = "AssetsMap.json";
 
+        // TODO 修改为本机AB文件根目录
 #if UNITY_EDITOR
         public const string LOCAL_PATH = "TODO 修改为本机AB文件根目录";
 #endif
 
         public static string AssetBundle_Root_Streaming_AsFile =
+#if UNITY_EDITOR
+            Application.streamingAssetsPath;
+#elif UNITY_STANDALONE
+            Application.streamingAssetsPath;
+#elif UNITY_ANDROID
+            Application.streamingAssetsPath;
+#elif UNITY_IOS
+            Application.streamingAssetsPath;
+#else
+            "Application.streamingAssetsPath";
+#endif
+
+        public static string AssetBundle_Root_Streaming_AsWeb =
 #if UNITY_EDITOR
             Application.streamingAssetsPath;
 #elif UNITY_STANDALONE
